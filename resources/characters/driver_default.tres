@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://bgnhes4hrnyb0"]
+
+[ext_resource type="Script" uid="uid://sjpx4tstdk45" path="res://scripts/resources/character_resource.gd" id="1_ihvju"]
+
+[resource]
+script = ExtResource("1_ihvju")
+id = "driver_default"
+character_name = "Default Driver"
+stats = {
+"acceleration": 15.0,
+"handling": 2.5,
+"top_speed": 35.0,
+"traction": 1.0,
+"weight": 50.0
+}

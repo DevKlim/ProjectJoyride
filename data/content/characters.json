@@ -1,0 +1,24 @@
+[
+  {
+    "id": "driver_default",
+    "name": "Default Driver",
+    "stats": {
+      "top_speed": 35.0,
+      "acceleration": 15.0,
+      "weight": 50.0,
+      "handling": 2.5,
+      "traction": 1.0
+    }
+  },
+  {
+    "id": "driver_heavy",
+    "name": "Heavy Bruiser",
+    "stats": {
+      "top_speed": 42.0,
+      "acceleration": 8.0,
+      "weight": 85.0,
+      "handling": 1.8,
+      "traction": 0.8
+    }
+  }
+]

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TrackResource" format=3 uid="uid://vy2no730q4np"]
+
+[ext_resource type="Script" uid="uid://bdtqoveua8kmy" path="res://scripts/resources/track_resource.gd" id="1_sn8p4"]
+
+[resource]
+script = ExtResource("1_sn8p4")
+id = "figure_8"
+track_name = "Figure-8 Circuit"

@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b2w5nq3qvs1pd"]
+
+[ext_resource type="Script" uid="uid://bvf3ps7177o8c" path="res://scripts/managers/game_manager.gd" id="1_gm"]
+[ext_resource type="Script" uid="uid://caoq3doqlxj4n" path="res://scripts/systems/level_system.gd" id="2_ls"]
+[ext_resource type="Script" uid="uid://cvy1w6p6thaju" path="res://scripts/systems/time_trial_system.gd" id="3_tt"]
+[ext_resource type="Script" uid="uid://1kfubhqiie0w" path="res://scripts/systems/shop_system.gd" id="4_ss"]
+[ext_resource type="Script" uid="uid://corxs8xph3kvu" path="res://scripts/systems/upgrade_system.gd" id="5_us"]
+[ext_resource type="Script" uid="uid://gr1ut4cbyq5w" path="res://scripts/systems/relocation_system.gd" id="6_rs"]
+[ext_resource type="Script" uid="uid://dei4nfpj8riuj" path="res://scripts/systems/camera_system.gd" id="7_cs"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="8_hud"]
+[ext_resource type="Script" uid="uid://sq3chsl7fe8y" path="res://utils/data_importer.gd" id="9_85g3d"]
+
+[node name="Main" type="Node" unique_id=1945146384]
+script = ExtResource("1_gm")
+
+[node name="LevelSystem" type="Node" parent="." unique_id=1506089720]
+script = ExtResource("2_ls")
+
+[node name="TimeTrialSystem" type="Node" parent="." unique_id=730251930]
+script = ExtResource("3_tt")
+
+[node name="ShopSystem" type="Node" parent="." unique_id=1910033753 groups=["ShopSystem"]]
+script = ExtResource("4_ss")
+
+[node name="UpgradeSystem" type="Node" parent="." unique_id=567963325]
+script = ExtResource("5_us")
+
+[node name="RelocationSystem" type="Node" parent="." unique_id=1398699296 groups=["RelocationSystem"]]
+script = ExtResource("6_rs")
+
+[node name="CameraSystem" type="Node3D" parent="." unique_id=1447052668]
+script = ExtResource("7_cs")
+
+[node name="Camera3D" type="Camera3D" parent="CameraSystem" unique_id=1643498908]
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1980049541]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 10, 0)
+shadow_enabled = true
+
+[node name="HUD" parent="." unique_id=542356221 instance=ExtResource("8_hud")]
+
+[node name="DataImporter" type="Node" parent="." unique_id=2037204223]
+script = ExtResource("9_85g3d")
+target_item_id = "All"

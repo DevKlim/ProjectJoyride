@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://d4mvfjup4xbde"]
+
+[ext_resource type="Script" uid="uid://byrjebb8h1s0q" path="res://scripts/components/kart_input_component.gd" id="1_inpt"]
+[ext_resource type="Script" uid="uid://cajga4nac20hv" path="res://scripts/components/stats_component.gd" id="2_stat"]
+[ext_resource type="Script" uid="uid://degkbt5wg242t" path="res://scripts/components/kart_physics_component.gd" id="3_phys"]
+[ext_resource type="Script" uid="uid://d13qbncl60sck" path="res://scripts/components/lap_tracker_component.gd" id="4_lapt"]
+[ext_resource type="Script" uid="uid://bg251r7511ht5" path="res://scripts/components/off_track_detector_component.gd" id="5_offt"]
+[ext_resource type="PackedScene" uid="uid://5u2qdmhad0oq" path="res://assets/models/Kart.gltf" id="6_x8h7c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kart"]
+size = Vector3(1.5, 0.75, 2)
+
+[node name="Kart" type="CharacterBody3D" unique_id=1014077725]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1063257716]
+shape = SubResource("BoxShape3D_kart")
+
+[node name="KartInputComponent" type="Node" parent="." unique_id=233373867]
+script = ExtResource("1_inpt")
+
+[node name="StatsComponent" type="Node" parent="." unique_id=173892703]
+script = ExtResource("2_stat")
+
+[node name="KartPhysicsComponent" type="Node" parent="." unique_id=563416358 node_paths=PackedStringArray("kart_body")]
+script = ExtResource("3_phys")
+kart_body = NodePath("..")
+
+[node name="LapTrackerComponent" type="Node" parent="." unique_id=1550264175]
+script = ExtResource("4_lapt")
+
+[node name="OffTrackDetectorComponent" type="Node" parent="." unique_id=95787522]
+script = ExtResource("5_offt")
+
+[node name="blockbench_export" parent="." unique_id=765844105 instance=ExtResource("6_x8h7c")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.5, -0.2)

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UpgradeResource" format=3 uid="uid://bh5xwvndseyjs"]
+
+[ext_resource type="Script" uid="uid://vfv7oijrubdc" path="res://scripts/resources/upgrade_resource.gd" id="1_6bxto"]
+
+[resource]
+script = ExtResource("1_6bxto")
+id = "slick_tires"
+upgrade_name = "Slick Tires"
+cost = 10
+modifiers = {
+"top_speed": 5.0,
+"traction": -0.2
+}

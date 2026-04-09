@@ -1,0 +1,15 @@
+class_name KartInputComponent
+extends Node
+
+var steer: float = 0.0
+var accelerate: float = 0.0
+var brake: bool = false
+var drift: bool = false
+var item: bool = false
+
+func _process(_delta: float) -> void:
+	steer = Input.get_axis("steer_right", "steer_left") # Left is typically positive rotation on Y axis
+	accelerate = Input.get_axis("accelerate", "brake")
+	brake = Input.is_action_pressed("brake")
+	drift = Input.is_action_pressed("drift")
+	item = Input.is_action_just_pressed("item")

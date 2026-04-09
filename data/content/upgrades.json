@@ -1,0 +1,11 @@
+[
+  {
+    "id": "slick_tires",
+    "name": "Slick Tires",
+    "cost": 10,
+    "modifiers": {
+      "top_speed": 5.0,
+      "traction": -0.2
+    }
+  }
+]
