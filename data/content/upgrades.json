@@ -2,10 +2,44 @@
   {
     "id": "slick_tires",
     "name": "Slick Tires",
+    "type": 0,
     "cost": 10,
     "modifiers": {
       "top_speed": 5.0,
       "traction": -0.2
     }
+  },
+  {
+    "id": "v8_engine",
+    "name": "V8 Turbo Engine",
+    "type": 1,
+    "cost": 15,
+    "modifiers": {
+      "top_speed": 15.0,
+      "acceleration": 2.5
+    }
+  },
+  {
+    "id": "lightweight_chassis",
+    "name": "Carbon Chassis",
+    "type": 1,
+    "cost": 12,
+    "modifiers": {
+      "weight": -10.0,
+      "acceleration": 5.0,
+      "handling": 0.5
+    }
+  },
+  {
+    "id": "monster_wheels",
+    "name": "Monster Truck Wheels",
+    "type": 2,
+    "cost": 25,
+    "modifiers": {
+      "handling": -0.5,
+      "traction": 2.0,
+      "weight": 20.0
+    },
+    "wheel_radius": 0.8
   }
-]
+]

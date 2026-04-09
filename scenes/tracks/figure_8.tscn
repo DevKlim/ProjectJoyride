@@ -1,14 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckgt6quwglxtd"]
+[gd_scene load_steps=8 format=3 uid="uid://ckgt6quwglxtd"]
 
 [ext_resource type="Script" path="res://scripts/components/track/start_position_component.gd" id="1_start"]
 [ext_resource type="Script" path="res://scripts/components/track/checkpoint_area.gd" id="2_cp"]
 [ext_resource type="Script" path="res://scripts/components/track/offbounds_area.gd" id="3_ob"]
+[ext_resource type="Script" path="res://scripts/entities/item_box.gd" id="4_ib"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_outbounds"]
 size = Vector3(5000, 10, 5000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_checkpoint"]
 size = Vector3(120, 40, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ib"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ib"]
+albedo_color = Color(0, 0.5, 1, 0.6)
+transparency = 1
+emission_enabled = true
+emission = Color(0, 0.5, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ib"]
+material = SubResource("StandardMaterial3D_ib")
+size = Vector3(1.5, 1.5, 1.5)
 
 [node name="Track_Figure 8" type="Node3D"]
 
@@ -39,9 +53,51 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 300)
 use_collision = true
 size = Vector3(1020, 1, 120)
 
+[node name="Ramp_1" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, -450, 2.5, -200)
+use_collision = true
+size = Vector3(120, 1, 20)
+
+[node name="Ramp_2" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 450, 2.5, 200)
+use_collision = true
+size = Vector3(120, 1, 20)
+
 [node name="TrackStartPosition" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -450, 2, 200)
 script = ExtResource("1_start")
+
+[node name="ItemBoxes" type="Node3D" parent="."]
+
+[node name="ItemBox_1" type="Area3D" parent="ItemBoxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -450, 1.5, 100)
+script = ExtResource("4_ib")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemBoxes/ItemBox_1"]
+shape = SubResource("BoxShape3D_ib")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ItemBoxes/ItemBox_1"]
+mesh = SubResource("BoxMesh_ib")
+
+[node name="ItemBox_2" type="Area3D" parent="ItemBoxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -300)
+script = ExtResource("4_ib")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemBoxes/ItemBox_2"]
+shape = SubResource("BoxShape3D_ib")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ItemBoxes/ItemBox_2"]
+mesh = SubResource("BoxMesh_ib")
+
+[node name="ItemBox_3" type="Area3D" parent="ItemBoxes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 450, 1.5, -100)
+script = ExtResource("4_ib")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ItemBoxes/ItemBox_3"]
+shape = SubResource("BoxShape3D_ib")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ItemBoxes/ItemBox_3"]
+mesh = SubResource("BoxMesh_ib")
 
 [node name="OffboundsArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)

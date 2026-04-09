@@ -1,0 +1,40 @@
+[
+  {
+    "id": "mushroom",
+    "name": "Mushroom",
+    "type": "boost",
+    "icon_path": "res://assets/ui/items/mushroom.tres",
+    "attributes": {
+      "boost_duration": 2.0,
+      "boost_strength": 1.5
+    }
+  },
+  {
+    "id": "golden_mushroom",
+    "name": "Golden Mushroom",
+    "type": "boost",
+    "icon_path": "res://assets/ui/items/golden_mushroom.tres",
+    "attributes": {
+      "boost_duration": 5.0,
+      "boost_strength": 1.6
+    }
+  },
+  {
+    "id": "feather",
+    "name": "Feather",
+    "type": "jump",
+    "icon_path": "res://assets/ui/items/feather.tres",
+    "attributes": {
+      "jump_force_multiplier": 1.5
+    }
+  },
+  {
+    "id": "coin",
+    "name": "Coin Bag",
+    "type": "coin",
+    "icon_path": "res://assets/ui/items/coin.tres",
+    "attributes": {
+      "amount": 3
+    }
+  }
+]

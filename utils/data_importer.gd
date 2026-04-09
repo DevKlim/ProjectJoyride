@@ -11,7 +11,7 @@ extends Node
 		if value: _run_cleanup()
 		clean_up_data = false
 
-@export_enum("All", "Characters", "Tracks", "Upgrades") var target_category: String = "All":
+@export_enum("All", "Characters", "Tracks", "Upgrades", "Items") var target_category: String = "All":
 	set(value):
 		if target_category != value:
 			target_category = value
@@ -83,6 +83,7 @@ func _run_import() -> void:
 	run_imp.call("Characters", "character_importer.gd", "import_characters")
 	run_imp.call("Tracks", "track_importer.gd", "import_tracks")
 	run_imp.call("Upgrades", "upgrade_importer.gd", "import_upgrades")
+	run_imp.call("Items", "item_importer.gd", "import_items")
 	
 	print("--- Data Import Complete ---")
 	if Engine.is_editor_hint():
@@ -91,7 +92,7 @@ func _run_import() -> void:
 func _make_dirs() -> void:
 	var dirs = [
 		CONTENT_DIR,
-		RESOURCE_BASE_PATH + "characters/", RESOURCE_BASE_PATH + "tracks/", RESOURCE_BASE_PATH + "upgrades/",
+		RESOURCE_BASE_PATH + "characters/", RESOURCE_BASE_PATH + "tracks/", RESOURCE_BASE_PATH + "upgrades/", RESOURCE_BASE_PATH + "items/",
 		"res://scenes/tracks/"
 	]
 	for d in dirs: DirAccess.make_dir_recursive_absolute(d)
@@ -99,3 +100,4 @@ func _make_dirs() -> void:
 func _run_cleanup() -> void:
 	print("--- Starting Orphan Cleanup ---")
 	if Engine.is_editor_hint(): EditorInterface.get_resource_filesystem().scan()
+

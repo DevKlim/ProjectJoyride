@@ -5,10 +5,6 @@ extends RefCounted
 const RESOURCE_BASE_PATH = "res://resources/"
 const SCENE_TRACKS_PATH = "res://scenes/tracks/"
 
-const CHARACTER_SCRIPT = "res://scripts/resources/character_resource.gd"
-const TRACK_SCRIPT = "res://scripts/resources/track_resource.gd"
-const UPGRADE_SCRIPT = "res://scripts/resources/upgrade_resource.gd"
-
 var target_item_id: String = "All"
 var overwrite_existing: bool = false
 var only_update_resources: bool = false
@@ -38,3 +34,23 @@ func _save_scene(root_node: Node, path: String) -> void:
 func _set_owner_recursive(node: Node, root: Node) -> void:
 	if node != root: node.owner = root
 	for c in node.get_children(): _set_owner_recursive(c, root)
+
+func parse_components(node: Node3D, component_data: Array) -> void:
+	for c_data in component_data:
+		var type = c_data.get("type", "")
+		var pos_arr = c_data.get("pos", [0,0,0])
+		var pos = Vector3(pos_arr[0], pos_arr[1], pos_arr[2])
+		
+		if type == "Start":
+			var start = Node3D.new()
+			start.set_script(load("res://scripts/components/track/start_position_component.gd"))
+			start.position = pos
+			start.name = "TrackStartPosition"
+			node.add_child(start)
+			
+		elif type == "ItemBox":
+			var ib = Area3D.new()
+			ib.set_script(load("res://scripts/entities/item_box.gd"))
+			ib.position = pos
+			ib.name = "ItemBox"
+			node.add_child(ib)

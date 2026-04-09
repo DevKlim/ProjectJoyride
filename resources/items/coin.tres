@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3 uid="uid://uk5rd0axq6g0"]
+
+[ext_resource type="Script" uid="uid://30sm4wqsfwx8" path="res://scripts/resources/item_resource.gd" id="1_vjlgh"]
+
+[resource]
+script = ExtResource("1_vjlgh")
+id = "coin"
+item_name = "Coin Bag"
+type = "coin"
+icon_color = Color(1, 1, 0, 1)
+attributes = {
+"amount": 3.0
+}

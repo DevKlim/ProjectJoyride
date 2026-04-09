@@ -5,10 +5,39 @@
 [ext_resource type="Script" uid="uid://degkbt5wg242t" path="res://scripts/components/kart_physics_component.gd" id="3_phys"]
 [ext_resource type="Script" uid="uid://d13qbncl60sck" path="res://scripts/components/lap_tracker_component.gd" id="4_lapt"]
 [ext_resource type="Script" uid="uid://bg251r7511ht5" path="res://scripts/components/off_track_detector_component.gd" id="5_offt"]
-[ext_resource type="PackedScene" uid="uid://5u2qdmhad0oq" path="res://assets/models/Kart.gltf" id="6_x8h7c"]
+[ext_resource type="Script" uid="uid://jr3mk62yvsxs" path="res://scripts/components/item_component.gd" id="6_item"]
+[ext_resource type="Script" uid="uid://fcdqkwb5o0be" path="res://scripts/components/wheels_component.gd" id="7_wheel"]
+[ext_resource type="PackedScene" uid="uid://5u2qdmhad0oq" path="res://assets/models/Kart.gltf" id="8_x8h7c"]
+[ext_resource type="Script" path="res://scripts/components/kart_vfx_component.gd" id="9_vfx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kart"]
 size = Vector3(1.5, 0.75, 2)
+
+[sub_resource type="Animation" id="Animation_trick"]
+resource_name = "trick_spin"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VisualModel:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kart"]
+_data = {
+&"trick_spin": SubResource("Animation_trick")
+}
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wheel"]
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.3
 
 [node name="Kart" type="CharacterBody3D" unique_id=1014077725]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
@@ -32,5 +61,22 @@ script = ExtResource("4_lapt")
 [node name="OffTrackDetectorComponent" type="Node" parent="." unique_id=95787522]
 script = ExtResource("5_offt")
 
-[node name="blockbench_export" parent="." unique_id=765844105 instance=ExtResource("6_x8h7c")]
+[node name="ItemComponent" type="Node" parent="." unique_id=1829805423]
+script = ExtResource("6_item")
+
+[node name="KartVFXComponent" type="Node3D" parent="." unique_id=999888777]
+script = ExtResource("9_vfx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=184298287]
+libraries/ = SubResource("AnimationLibrary_kart")
+
+[node name="WheelsComponent" type="Node3D" parent="." unique_id=695138046]
+script = ExtResource("7_wheel")
+
+[node name="BaseWheelMesh" type="MeshInstance3D" parent="WheelsComponent" unique_id=230939281]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_wheel")
+
+[node name="VisualModel" parent="." unique_id=765844105 instance=ExtResource("8_x8h7c")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.5, -0.2)
+

@@ -10,8 +10,29 @@
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="8_hud"]
 [ext_resource type="Script" uid="uid://sq3chsl7fe8y" path="res://utils/data_importer.gd" id="9_85g3d"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_top_color = Color(0.12, 0.16, 0.35, 1)
+sky_horizon_color = Color(0.55, 0.35, 0.65, 1)
+ground_bottom_color = Color(0.05, 0.05, 0.1, 1)
+ground_horizon_color = Color(0.55, 0.35, 0.65, 1)
+
+[sub_resource type="Sky" id="Sky_y2k"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_y2k")
+ambient_light_source = 3
+ambient_light_color = Color(0.3, 0.3, 0.4, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.2
+
 [node name="Main" type="Node" unique_id=1945146384]
 script = ExtResource("1_gm")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=125245930]
+environment = SubResource("Environment_main")
 
 [node name="LevelSystem" type="Node" parent="." unique_id=1506089720]
 script = ExtResource("2_ls")
