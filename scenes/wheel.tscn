@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://ue12nvv10ra8"]
+
+[ext_resource type="PackedScene" uid="uid://dxxtueuthrkxd" path="res://assets/models/wheel.glb" id="1_hm1pg"]
+
+[node name="wheel" unique_id=193149181 instance=ExtResource("1_hm1pg")]
+
+[node name="Torus_002" parent="." index="0" unique_id=133136228]
+transform = Transform3D(0.5, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0.07111736, 0, 2.298)
+
+[node name="Cube_002" parent="." index="1" unique_id=310209793]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.028, 0, 2.383)

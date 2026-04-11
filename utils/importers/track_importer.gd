@@ -9,7 +9,7 @@ func import_tracks(data: Array) -> void:
 		
 		if not _should_process(id, res_path): continue
 		
-		var res = _get_or_create_resource(res_path, TRACK_SCRIPT)
+		var res = _get_or_create_resource(res_path, "res://scripts/resources/track_resource.gd")
 		res.id = id
 		res.track_name = t_data.get("name", id)
 		res.total_laps = t_data.get("laps", 3)

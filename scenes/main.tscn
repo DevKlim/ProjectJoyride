@@ -63,4 +63,6 @@ shadow_enabled = true
 
 [node name="DataImporter" type="Node" parent="." unique_id=2037204223]
 script = ExtResource("9_85g3d")
+target_category = "Items"
+overwrite_existing = true
 target_item_id = "All"

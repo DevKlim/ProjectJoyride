@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CharacterResource" format=3 uid="uid://tc0u7i1cd8j5"]
+
+[ext_resource type="PackedScene" uid="uid://cp065fw0ofda" path="res://scenes/characters/neon_rider.tscn" id="1_0njrl"]
+[ext_resource type="Script" uid="uid://sjpx4tstdk45" path="res://scripts/resources/character_resource.gd" id="1_char"]
+
+[resource]
+script = ExtResource("1_char")
+id = "neon_rider"
+character_name = "Neon Rider"
+model_scene = ExtResource("1_0njrl")
+stats = {
+"acceleration": 35.0,
+"handling": 3.5,
+"top_speed": 38.0,
+"traction": 1.0,
+"weight": 30.0
+}

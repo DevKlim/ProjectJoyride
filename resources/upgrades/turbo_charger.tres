@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UpgradeResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/upgrade_resource.gd" id="1_upgrade"]
+
+[resource]
+script = ExtResource("1_upgrade")
+id = "turbo_charger"
+upgrade_name = "Turbo Charger"
+type = 1
+cost = 150
+modifiers = {
+"acceleration": 5.0,
+"top_speed": 3.0
+}
+

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UpgradeResource" format=3 uid="uid://cra2k01pe255e"]
+
+[ext_resource type="Script" uid="uid://vfv7oijrubdc" path="res://scripts/resources/upgrade_resource.gd" id="1_t2imq"]
+
+[resource]
+script = ExtResource("1_t2imq")
+id = "monster_wheels"
+upgrade_name = "Grav-Tread Wheels"
+type = 2
+cost = 25
+modifiers = {
+"handling": -0.5,
+"traction": 2.0,
+"weight": 20.0
+}
+wheel_radius = 0.8

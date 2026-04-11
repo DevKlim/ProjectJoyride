@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://vru4qqckqgo3"]
+
+[ext_resource type="Texture2D" uid="uid://dposn00knswoj" path="res://assets/maps/overlay.png" id="1_kgi6q"]
+
+[resource]
+resource_name = "overlay"
+cull_mode = 2
+albedo_texture = ExtResource("1_kgi6q")
+roughness = 0.5

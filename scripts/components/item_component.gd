@@ -37,8 +37,8 @@ func use_item() -> void:
 		"boost":
 			if physics:
 				var dur = used.attributes.get("boost_duration", 2.0)
-				var strength = used.attributes.get("boost_strength", 1.5)
-				physics.apply_item_boost(dur, strength)
+				var vel = used.attributes.get("boost_velocity", 15.0)
+				physics.apply_item_boost(dur, vel)
 		"jump":
 			if physics and physics.kart_body.is_on_floor():
 				physics.y_velocity = physics.jump_force * used.attributes.get("jump_force_multiplier", 1.5)
@@ -48,4 +48,3 @@ func use_item() -> void:
 				shop[0].add_coins(used.attributes.get("amount", 1))
 	
 	item_used.emit()
-

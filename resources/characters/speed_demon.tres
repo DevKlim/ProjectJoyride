@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CharacterResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/character_resource.gd" id="1_char"]
+
+[resource]
+script = ExtResource("1_char")
+id = "speed_demon"
+character_name = "Speed Demon"
+stats = {
+"acceleration": 38.0,
+"handling": 1.8,
+"top_speed": 48.0,
+"traction": 0.5,
+"weight": 25.0
+}

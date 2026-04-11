@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TrackProfileResource" format=3 uid="uid://6kcgq7c13h6n"]
+
+[ext_resource type="Script" uid="uid://cgqcfywjtm2fw" path="res://scripts/resources/track_profile_resource.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+wall_height = 2.0
+wall_thickness = 1.0
+track_depth = 8.0

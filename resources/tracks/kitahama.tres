@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TrackResource" format=3 uid="uid://cx1b2c3d4e5f"]
+
+[ext_resource type="Script" uid="uid://bdtqoveua8kmy" path="res://scripts/resources/track_resource.gd" id="1_track"]
+
+[resource]
+script = ExtResource("1_track")
+id = "kitahama"
+track_name = "Kitahama"
+total_laps = 3

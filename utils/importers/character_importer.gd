@@ -8,11 +8,10 @@ func import_characters(data: Array) -> void:
 		
 		if not _should_process(id, res_path): continue
 		
-		var res = _get_or_create_resource(res_path, CHARACTER_SCRIPT)
+		var res = _get_or_create_resource(res_path, "res://scripts/resources/character_resource.gd")
 		res.id = id
 		res.character_name = c_data.get("name", id)
 		res.stats = c_data.get("stats", {})
 		
 		ResourceSaver.save(res, res_path)
 		print("Imported Character: ", id)
-		

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CharacterResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/character_resource.gd" id="1_char"]
+
+[resource]
+script = ExtResource("1_char")
+id = "byte_bruiser"
+character_name = "Byte Bruiser"
+stats = {
+"acceleration": 25.0,
+"handling": 2.5,
+"top_speed": 42.0,
+"traction": 0.8,
+"weight": 50.0
+}

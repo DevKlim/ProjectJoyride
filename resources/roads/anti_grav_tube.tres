@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TrackProfileResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/track_profile_resource.gd" id="1_trackprof"]
+
+[resource]
+script = ExtResource("1_trackprof")
+shape_type = 4
+road_width = 40.0
+wall_height = 8.0
+wall_thickness = 4.0
+track_depth = 4.0
+is_left_wall_open = false
+is_right_wall_open = false
+roof_height = 12.0
+roof_peak_offset = 0.0

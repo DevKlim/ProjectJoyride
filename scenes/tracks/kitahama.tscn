@@ -1,0 +1,436 @@
+[gd_scene format=3 uid="uid://ulunb7m5n7dc"]
+
+[ext_resource type="Script" uid="uid://ctoeh6ih854ey" path="res://scripts/components/track/road_component.gd" id="1_road"]
+[ext_resource type="Resource" path="res://resources/roads/half_pipe.tres" id="2_5v7ip"]
+[ext_resource type="Script" uid="uid://blu4wmvmwwomr" path="res://scripts/components/track/start_position_component.gd" id="2_start"]
+[ext_resource type="Script" uid="uid://d1s6es8qo5kln" path="res://scripts/components/track/checkpoint_area.gd" id="3_check"]
+[ext_resource type="Script" uid="uid://bqoq3nbxb68rq" path="res://scripts/components/track/offbounds_area.gd" id="4_off"]
+[ext_resource type="PackedScene" uid="uid://bvgmy3caws1fh" path="res://assets/maps/kitahama.glb" id="4_u5dtt"]
+[ext_resource type="Script" uid="uid://dujn7yot1itkn" path="res://scripts/entities/item_box.gd" id="5_item"]
+[ext_resource type="Script" uid="uid://wnmkfn0vejxs" path="res://scripts/components/track/boost_pad_component.gd" id="6_boost"]
+[ext_resource type="Script" uid="uid://cq81igncghyyv" path="res://scripts/resources/item_pool_resource.gd" id="6_j4yn2"]
+[ext_resource type="Script" uid="uid://d1omi3y2q3t3i" path="res://scripts/resources/track_segment_resource.gd" id="7_3k0sj"]
+[ext_resource type="Script" uid="uid://b3b5jpkk3a1cn" path="res://scripts/components/track/hazard_component.gd" id="7_hazard"]
+[ext_resource type="Script" uid="uid://cgqcfywjtm2fw" path="res://scripts/resources/track_profile_resource.gd" id="8_l81el"]
+[ext_resource type="Script" uid="uid://w7a2wesus34b" path="res://scripts/components/track/wind_gust_component.gd" id="8_wind"]
+[ext_resource type="Script" uid="uid://dwdb0vh81c0og" path="res://scripts/components/track/cannon_component.gd" id="9_cannon"]
+[ext_resource type="Script" uid="uid://dsvb3u3lxfaoq" path="res://scripts/components/track/track_builder_3d.gd" id="10_trackb"]
+[ext_resource type="Script" uid="uid://bfycrjjymm033" path="res://scripts/components/track/track_element_builder_3d.gd" id="11_teb"]
+[ext_resource type="Material" uid="uid://dbx5g7t8w4b" path="res://resources/materials/track_element_boost.tres" id="12_mat_b"]
+[ext_resource type="Material" uid="uid://cxsa8h6t" path="res://resources/materials/track_element_ramp.tres" id="13_mat_r"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
+sky_top_color = Color(0.02, 0.02, 0.05, 1)
+sky_horizon_color = Color(0.1, 0.05, 0.2, 1)
+ground_bottom_color = Color(0.01, 0.01, 0.02, 1)
+ground_horizon_color = Color(0.1, 0.05, 0.2, 1)
+
+[sub_resource type="Sky" id="Sky_night"]
+sky_material = SubResource("ProceduralSkyMaterial_night")
+
+[sub_resource type="Environment" id="Environment_osaka"]
+background_mode = 2
+sky = SubResource("Sky_night")
+ambient_light_source = 3
+ambient_light_color = Color(0.1, 0.1, 0.25, 1)
+tonemap_mode = 2
+glow_bloom = 0.3
+fog_light_color = Color(0.1, 0.05, 0.2, 1)
+fog_density = 0.002
+
+[sub_resource type="Curve3D" id="Curve3D_u5dtt"]
+_data = {
+"points": PackedVector3Array(44.582397, 75.24426, 484.3313, -44.582397, -75.24426, -484.3313, -1153.982, -54.776794, -1792.981, -115.49756, 3.2269402, 51.822754, 115.49756, -3.2269402, -51.822754, -1093.8169, -45.694595, -2249.0732, -172.04395, 2.1234436, 235.15381, 172.04395, -2.1234436, -235.15381, -1016.80054, 75.319244, -2618.5168),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_road"]
+albedo_color = Color(0.3382229, 0.33830392, 0.39501858, 1)
+
+[sub_resource type="Resource" id="Resource_3k0sj"]
+script = ExtResource("6_j4yn2")
+
+[sub_resource type="Curve3D" id="Curve3D_csi5x"]
+_data = {
+"points": PackedVector3Array(-4.2929688, 28.606369, -26.92163, 4.2929688, -28.606369, 26.92163, -169.9564, -92.53551, -2699.3508, 9.6245575, 0.88726807, -205.08496, -9.6245575, -0.88726807, 205.08496, 51.7231, -99.96057, -1868.041, 0, 0, 0, 0, 0, 0, 6.3297405, -99.96472, -935.7479, 0, 0, 0, 0, 0, 0, -8.111656, -99.96167, -743.08496, 0, 0, 0, 0, 0, 0, -69.820564, -99.93933, -124.113495),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="Resource" id="Resource_4boo1"]
+script = ExtResource("8_l81el")
+road_width = 100.0
+track_depth = 50.0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_ao1p7"]
+script = ExtResource("7_3k0sj")
+override_width = true
+start_width = 120.0
+end_width = 500.0
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_nqm51"]
+script = ExtResource("7_3k0sj")
+override_width = true
+start_width = 500.0
+end_width = 300.0
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_l81el"]
+script = ExtResource("8_l81el")
+shape_type = 0
+road_width = 0.0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_rccmc"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_l81el")
+override_width = true
+start_width = 0.0
+end_width = 0.0
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_8j8sg"]
+script = ExtResource("7_3k0sj")
+override_width = true
+start_width = 300.0
+end_width = 350.0
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Curve3D" id="Curve3D_4boo1"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -155.66562, -81.71416, -1586.3738, 8.002197, 1.6923828, 93.54883, -8.002197, -1.6923828, -93.54883, -108.962364, -76.24695, -1981.9202, 61.692062, -24.571983, 48.822266, -61.692062, 24.571983, -48.822266, -172.1103, -64.14895, -2490.7642, -63.668015, -8.710495, 30.550293, 63.668015, 8.710495, -30.550293, -193.4232, -46.059967, -2644.947, -15.915955, 1.9004822, -45.984863, 15.915955, -1.9004822, 45.984863, -32.96254, -68.387924, -2526.8643, -39.80787, 8.27787, -82.579346, 39.80787, -8.27787, 82.579346, 80.99087, -76.49662, -2228.7722, -15.528473, 8.832748, -76.81494, 15.528473, -8.832748, 76.81494, 183.53853, -75.85901, -1816.257, 0, 0, 0, 0, 0, 0, 121.50407, -75.75281, -1306.6674, 0, 0, 0, 0, 0, 0, 6.624691, -75.62048, -934.5424, 0, 0, 0, 0, 0, 0, -63.506668, -75.73303, -217.04169, 0, 0, 0, 0, 0, 0, 466.00555, -76.16528, -63.532593),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 11
+
+[sub_resource type="Resource" id="Resource_csi5x"]
+script = ExtResource("8_l81el")
+shape_type = 0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wallride"]
+albedo_color = Color(0.2, 0.1, 0.4, 1)
+emission_enabled = true
+emission = Color(0.4, 0.1, 0.8, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trigger"]
+size = Vector3(20, 5, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_boost"]
+albedo_color = Color(0, 1, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hazard"]
+albedo_color = Color(0.05, 0.05, 0.05, 1)
+metallic = 0.8
+roughness = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wind"]
+height = 60.0
+radius = 12.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wind"]
+transparency = 1
+albedo_color = Color(0.4, 0.8, 1, 0.25)
+emission_enabled = true
+emission = Color(0.2, 0.6, 1, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_cannon"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 21.937378, -0.3048401, -1.5438232, -21.937378, 0.3048401, 1.5438232, -342.34888, -41.67798, 82.6189, 258.5288, -16.33043, -118.50342, -258.5288, 16.33043, 118.50342, -780.10547, -6.321411, 200.72058),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cannon"]
+size = Vector3(20, 10, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cannon"]
+albedo_color = Color(1, 0.5, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_l571x"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.4803467, 11.690796, 9.728149, 25.07019, -25.268433, -32.814087, -25.07019, 25.268433, 32.814087, -22.54004, 40.257202, 177.23401, 23.927063, -33.539185, -8.053619, -23.927063, 33.539185, 8.053619, -217.3056, 266.75732, 382.5234),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_spk5r"]
+size = Vector3(34.53717, 20.454834, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1thwk"]
+albedo_color = Color(1, 0.5, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_checkpoint"]
+size = Vector3(50, 40, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_outbounds"]
+size = Vector3(5000, 20, 5000)
+
+[node name="Track_Kitahama" type="Node3D" unique_id=1209544458]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1850125874]
+environment = SubResource("Environment_osaka")
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1754113753]
+
+[node name="Road_Main" type="Node3D" parent="Geometry" unique_id=445204850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+
+[node name="Path1" type="Path3D" parent="Geometry/Road_Main" unique_id=992572885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 628.8994, -10.000023, 1688.9622)
+curve = SubResource("Curve3D_u5dtt")
+script = ExtResource("10_trackb")
+profile = ExtResource("2_5v7ip")
+road_material = SubResource("StandardMaterial3D_road")
+
+[node name="TrackElement_BoostPad" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=212110676]
+script = ExtResource("11_teb")
+track_offset = 150.0
+length = 20.0
+width = 20.0
+boost_power = 50.0
+element_material = ExtResource("12_mat_b")
+
+[node name="TrackElement_BoostPad2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1081289069]
+script = ExtResource("11_teb")
+track_offset = 200.0
+length = 20.0
+width = 30.0
+boost_power = 50.0
+element_material = ExtResource("12_mat_b")
+
+[node name="TrackElement_BoostPad3" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1428425963]
+script = ExtResource("11_teb")
+track_offset = 250.0
+length = 20.0
+width = 30.0
+boost_power = 50.0
+element_material = ExtResource("12_mat_b")
+
+[node name="TrackElement_JumpRamp" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=258691631]
+script = ExtResource("11_teb")
+element_type = 2
+track_offset = 350.0
+length = 20.0
+lateral_offset = 15.0
+ramp_height = 8.0
+element_material = ExtResource("13_mat_r")
+
+[node name="TrackElement_BoostRamp" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=477356120]
+script = ExtResource("11_teb")
+element_type = 1
+track_offset = 650.0
+length = 40.0
+width = 18.0
+lateral_offset = -8.0
+ramp_height = 10.0
+element_material = ExtResource("12_mat_b")
+
+[node name="TrackElement_JumpRamp2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1132737128]
+script = ExtResource("11_teb")
+element_type = 2
+track_offset = 350.0
+length = 20.0
+lateral_offset = -15.0
+ramp_height = 8.0
+element_material = ExtResource("13_mat_r")
+
+[node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=2078087229]
+script = ExtResource("11_teb")
+element_type = 3
+track_offset = 100.0
+height_offset = 2.0
+item_pools = Array[ExtResource("6_j4yn2")]([SubResource("Resource_3k0sj")])
+metadata/_custom_type_script = "uid://bfycrjjymm033"
+
+[node name="TrackStartPosition" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=2041379560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1166.8951, -53.402508, -1866.7051)
+script = ExtResource("2_start")
+
+[node name="Path2" type="Path3D" parent="Geometry/Road_Main" unique_id=948783848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 42.26007, 0)
+curve = SubResource("Curve3D_csi5x")
+script = ExtResource("10_trackb")
+profile = SubResource("Resource_4boo1")
+multi_road = true
+segments = Array[ExtResource("7_3k0sj")]([SubResource("Resource_ao1p7"), SubResource("Resource_nqm51"), SubResource("Resource_rccmc"), SubResource("Resource_8j8sg")])
+metadata/_custom_type_script = "uid://dsvb3u3lxfaoq"
+
+[node name="Path2_5" type="Path3D" parent="Geometry/Road_Main" unique_id=1248324766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.881805, 0)
+curve = SubResource("Curve3D_4boo1")
+script = ExtResource("10_trackb")
+profile = SubResource("Resource_csi5x")
+metadata/_custom_type_script = "uid://dsvb3u3lxfaoq"
+
+[node name="Road_Ramp" type="Node3D" parent="Geometry" unique_id=166086970]
+script = ExtResource("1_road")
+
+[node name="RampUp" type="CSGBox3D" parent="Geometry/Road_Ramp" unique_id=1729742364]
+transform = Transform3D(1, 0, 0, 0, 0.98093826, 0.19432004, 0, -0.19432004, 0.98093826, -79.37279, 8.382385, -319.00024)
+use_collision = true
+size = Vector3(40, 2, 120)
+material = SubResource("StandardMaterial3D_road")
+
+[node name="RampDown" type="CSGBox3D" parent="Geometry/Road_Ramp" unique_id=324936710]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, -80, 9, 20)
+use_collision = true
+size = Vector3(40, 2, 120)
+material = SubResource("StandardMaterial3D_road")
+
+[node name="Road_WallRide" type="Node3D" parent="Geometry" unique_id=209977537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 135.65405, 84.02539, -1460.1382)
+script = ExtResource("1_road")
+is_wall_ride = true
+friction = 0.2
+
+[node name="BankedHighway" type="CSGBox3D" parent="Geometry/Road_WallRide" unique_id=642948717]
+transform = Transform3D(0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0, 1, 262.68536, -9.936539, -150)
+use_collision = true
+size = Vector3(40, 2, 280)
+material = SubResource("StandardMaterial3D_wallride")
+
+[node name="Scenery" type="Node3D" parent="Geometry" unique_id=477151097]
+
+[node name="kitahama" parent="Geometry/Scenery" unique_id=71468674 instance=ExtResource("4_u5dtt")]
+transform = Transform3D(-1.7101007, 0, 4.698463, 0, 5, 0, -4.698463, 0, -1.7101007, -39.70456, 0, 0)
+
+[node name="TrackElements" type="Node3D" parent="Geometry" unique_id=1981065019]
+
+[node name="BoostPad_1" type="Area3D" parent="Geometry/TrackElements" unique_id=300183489]
+transform = Transform3D(0.9396925, 0.17101008, 0.29619813, 0, 0.8660255, -0.50000006, -0.3420201, 0.46984637, 0.8137978, -555.9178, 33.572582, 363.95816)
+visible = false
+script = ExtResource("6_boost")
+boost_power = 30.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/BoostPad_1" unique_id=2016922457]
+shape = SubResource("BoxShape3D_trigger")
+
+[node name="MeshInstance3D" type="CSGBox3D" parent="Geometry/TrackElements/BoostPad_1" unique_id=1025137061]
+size = Vector3(20, 0.5, 5)
+material = SubResource("StandardMaterial3D_boost")
+
+[node name="Hazard_1" type="Area3D" parent="Geometry/TrackElements" unique_id=588923285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
+script = ExtResource("7_hazard")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/Hazard_1" unique_id=1652300610]
+shape = SubResource("BoxShape3D_trigger")
+
+[node name="MeshInstance3D" type="CSGPolygon3D" parent="Geometry/TrackElements/Hazard_1" unique_id=136783728]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.1, 0)
+polygon = PackedVector2Array(-8, -8, 8, -8, 6, 8, -6, 8)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 8
+material = SubResource("StandardMaterial3D_hazard")
+
+[node name="WindGust_1" type="Area3D" parent="Geometry/TrackElements" unique_id=336196678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 1, -80)
+script = ExtResource("8_wind")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/WindGust_1" unique_id=1165504816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+shape = SubResource("CylinderShape3D_wind")
+
+[node name="MeshInstance3D" type="CSGCylinder3D" parent="Geometry/TrackElements/WindGust_1" unique_id=1966459253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+radius = 12.0
+height = 60.0
+material = SubResource("StandardMaterial3D_wind")
+
+[node name="Cannon_1" type="Area3D" parent="Geometry/TrackElements" unique_id=1098623177 node_paths=PackedStringArray("flight_path")]
+transform = Transform3D(-0.5272914, 0.21851219, -0.8211067, 0.14984953, 0.97513443, 0.16327271, 0.8363665, -0.03695011, -0.54692394, -378.6928, 160.67358, -944.2511)
+script = ExtResource("9_cannon")
+flight_path = NodePath("CannonPath_1")
+flight_speed = 200.0
+
+[node name="CannonPath_1" type="Path3D" parent="Geometry/TrackElements/Cannon_1" unique_id=512525112]
+curve = SubResource("Curve3D_cannon")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/Cannon_1" unique_id=1321754913]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5, 0)
+shape = SubResource("BoxShape3D_cannon")
+
+[node name="MeshInstance3D" type="CSGBox3D" parent="Geometry/TrackElements/Cannon_1" unique_id=1955244373]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5, 0)
+size = Vector3(20, 10, 20)
+material = SubResource("StandardMaterial3D_cannon")
+
+[node name="Cannon_2" type="Area3D" parent="Geometry/TrackElements" unique_id=1557208412 node_paths=PackedStringArray("flight_path")]
+transform = Transform3D(0.5732785, 0.8091643, 0.12886055, 6.353988e-05, 0.1572258, -0.98756254, -0.8193606, 0.56615674, 0.09008275, -1423.8373, 365.32007, -1675.2037)
+script = ExtResource("9_cannon")
+flight_path = NodePath("CannonPath_2")
+
+[node name="CannonPath_2" type="Path3D" parent="Geometry/TrackElements/Cannon_2" unique_id=1711451132]
+curve = SubResource("Curve3D_l571x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/Cannon_2" unique_id=1659755179]
+transform = Transform3D(2, -5.9604645e-08, -3.1292439e-07, 0, 2, 7.450581e-09, 0, 1.4901161e-08, 1.9999971, 0.016113281, 5.203491, 0.0004272461)
+shape = SubResource("BoxShape3D_spk5r")
+
+[node name="MeshInstance3D" type="CSGBox3D" parent="Geometry/TrackElements/Cannon_2" unique_id=2058391869]
+transform = Transform3D(2, -5.9604645e-08, -3.1292439e-07, 0, 2, 7.450581e-09, 0, 1.4901161e-08, 1.9999971, 0.6409302, 4.0721436, 0.0008544922)
+size = Vector3(25.123764, 11.505615, 20)
+material = SubResource("StandardMaterial3D_1thwk")
+
+[node name="Checkpoints" type="Node3D" parent="." unique_id=364337614]
+
+[node name="Checkpoint_0" type="Area3D" parent="Checkpoints" unique_id=685287529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -475.77515, 77.63495, 327.81744)
+script = ExtResource("3_check")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint_0" unique_id=842709905]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.12265, 52.57106, 0)
+shape = SubResource("BoxShape3D_checkpoint")
+
+[node name="Checkpoint_1" type="Area3D" parent="Checkpoints" unique_id=1600671575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -250)
+script = ExtResource("3_check")
+checkpoint_index = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint_1" unique_id=1457151499]
+shape = SubResource("BoxShape3D_checkpoint")
+
+[node name="Checkpoint_2" type="Area3D" parent="Checkpoints" unique_id=1048434322]
+transform = Transform3D(0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0, 1, -80, 25, -200)
+script = ExtResource("3_check")
+checkpoint_index = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint_2" unique_id=1521277294]
+shape = SubResource("BoxShape3D_checkpoint")
+
+[node name="Checkpoint_3" type="Area3D" parent="Checkpoints" unique_id=1330816751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 1, 50)
+script = ExtResource("3_check")
+checkpoint_index = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint_3" unique_id=1841757611]
+shape = SubResource("BoxShape3D_checkpoint")
+
+[node name="ItemBoxes" type="Node3D" parent="." unique_id=873536913]
+
+[node name="ItemBox_1" type="Area3D" parent="ItemBoxes" unique_id=991137371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -100)
+script = ExtResource("5_item")
+
+[node name="ItemBox_2" type="Area3D" parent="ItemBoxes" unique_id=1931733438]
+transform = Transform3D(0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0, 1, -70, 42, -150)
+script = ExtResource("5_item")
+
+[node name="OffboundsArea" type="Area3D" parent="." unique_id=985643652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -40, 0)
+script = ExtResource("4_off")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OffboundsArea" unique_id=1122688536]
+shape = SubResource("BoxShape3D_outbounds")

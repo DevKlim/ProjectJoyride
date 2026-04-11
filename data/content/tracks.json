@@ -1,7 +1,12 @@
 [
-  {
-    "id": "figure_8",
-    "name": "Figure-8 Circuit",
-    "laps": 3
-  }
-]
+	{
+		"id": "figure_8",
+		"name": "Figure-8 Circuit",
+		"laps": 3.0
+	},
+	{
+		"id": "kitahama",
+		"name": "Kitahama",
+		"laps": 3.0
+	}
+]

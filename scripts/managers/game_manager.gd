@@ -1,8 +1,8 @@
 class_name GameManager
 extends Node
 
-@export var starting_character_id: String = "driver_default"
-@export var starting_track_id: String = "figure_8"
+@export var starting_character_id: String = "neon_rider"
+@export var starting_track_id: String = "kitahama"
 
 @onready var level_system: LevelSystem = $LevelSystem
 @onready var time_trial_system: TimeTrialSystem = $TimeTrialSystem
@@ -21,35 +21,78 @@ func _ready() -> void:
 func _initialize_game() -> void:
 	level_system.load_level(starting_track_id)
 	
+	# Display track name dynamically
+	var final_track_name = starting_track_id.capitalize()
+	var track_res_path = "res://resources/tracks/" + starting_track_id + ".tres"
+	if ResourceLoader.exists(track_res_path):
+		var track_res = load(track_res_path) as TrackResource
+		if track_res:
+			final_track_name = track_res.track_name
+			
+	if starting_track_id == "kitahama" and final_track_name == "Kitahama":
+		final_track_name = "Kitahama, Osaka Cup"
+		
+	hud.show_track_name(final_track_name)
+	
 	var kart_scene = load("res://scenes/kart.tscn") as PackedScene
 	player_kart = kart_scene.instantiate()
 	add_child(player_kart)
 
+	# Setup orientation using the exact starting nodes rotation logic
 	var start_positions = get_tree().get_nodes_in_group("start_position")
 	if start_positions.size() > 0:
 		player_kart.global_position = start_positions[0].global_position
-		
-	# Find Checkpoint 0 and orient the player towards it
-	var cps = get_tree().get_nodes_in_group("checkpoints")
-	var cp0 = null
-	for cp in cps:
-		if cp.checkpoint_index == 0:
-			cp0 = cp
-			break
-			
-	if cp0:
-		var target_pos = cp0.global_position
-		target_pos.y = player_kart.global_position.y
-		player_kart.look_at(target_pos, Vector3.UP)
+		player_kart.global_rotation = start_positions[0].global_rotation
 
 	var char_path = "res://resources/characters/" + starting_character_id + ".tres"
 	var stats_comp = player_kart.get_node("StatsComponent")
-	if ResourceLoader.exists(char_path) and stats_comp:
+	var char_scene: PackedScene = null
+	
+	if ResourceLoader.exists(char_path):
 		var character_res = load(char_path) as CharacterResource
-		if character_res.stats:
-			for stat_key in character_res.stats:
-				if stat_key in stats_comp:
-					stats_comp.set(stat_key, character_res.stats[stat_key])
+		if character_res:
+			if stats_comp and character_res.stats:
+				for stat_key in character_res.stats:
+					if stat_key in stats_comp:
+						stats_comp.set(stat_key, character_res.stats[stat_key])
+			
+			if character_res.model_scene:
+				char_scene = character_res.model_scene
+
+	# Try loading fallback character model if no model linked in the resource
+	# Prioritizing .tscn over .glb so Godot-configured animations load correctly
+	if not char_scene:
+		var paths_to_try = [
+			"res://assets/characters/" + starting_character_id + ".tscn",
+			"res://assets/models/characters/" + starting_character_id + ".tscn",
+			"res://assets/models/characters/" + starting_character_id + ".glb",
+			"res://assets/characters/base_character.tscn",
+			"res://assets/models/characters/base_character.tscn",
+			"res://assets/models/characters/base_character.glb"
+		]
+		
+		for path in paths_to_try:
+			if ResourceLoader.exists(path):
+				char_scene = load(path) as PackedScene
+				break
+			
+	if char_scene:
+		var char_inst = char_scene.instantiate()
+		var visual_model = player_kart.get_node("VisualModel")
+		if visual_model:
+			visual_model.add_child(char_inst)
+			
+			if char_inst is Node3D:
+				# Lift the character up so they aren't hidden inside the floor of the kart!
+				char_inst.position = Vector3(0, 0.6, 0)
+				char_inst.rotation = Vector3.ZERO
+				char_inst.scale = Vector3.ONE
+				char_inst.visible = true
+			
+			var anim_player = char_inst.get_node_or_null("AnimationPlayer")
+			var char_animator = player_kart.get_node_or_null("CharacterAnimatorComponent")
+			if char_animator and anim_player:
+				char_animator.anim_player = anim_player
 
 	camera_system.target = player_kart
 

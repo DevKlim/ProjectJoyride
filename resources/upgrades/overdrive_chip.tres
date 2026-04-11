@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UpgradeResource" format=3 uid="uid://c2qp8qokvxl5q"]
+
+[ext_resource type="Script" uid="uid://vfv7oijrubdc" path="res://scripts/resources/upgrade_resource.gd" id="1_4tlp6"]
+
+[resource]
+script = ExtResource("1_4tlp6")
+id = "overdrive_chip"
+upgrade_name = "Overdrive Chip"
+cost = 20
+modifiers = {
+"acceleration": -2.0,
+"handling": -0.5,
+"top_speed": 25.0
+}

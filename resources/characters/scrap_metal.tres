@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CharacterResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/character_resource.gd" id="1_char"]
+
+[resource]
+script = ExtResource("1_char")
+id = "scrap_metal"
+character_name = "Scrap Metal"
+stats = {
+"acceleration": 40.0,
+"handling": 2.0,
+"top_speed": 34.0,
+"traction": 1.5,
+"weight": 60.0
+}
+

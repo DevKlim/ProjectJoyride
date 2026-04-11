@@ -12,6 +12,9 @@ extends Control
 @onready var upgrade_panel = $UpgradePanel
 @onready var upgrade_container = $UpgradePanel/HBoxContainer
 
+@onready var track_name_container = $TrackNameContainer
+@onready var track_name_label = $TrackNameContainer/TrackNameLabel
+
 signal upgrade_selected(upgrade_id: String)
 
 var is_rouletting: bool = false
@@ -23,6 +26,7 @@ func _ready() -> void:
 	countdown_label.hide()
 	debug_label.text = "Checkpoints: "
 	item_icon.texture = null
+	track_name_container.modulate.a = 0.0
 	set_speedlines_intensity(0.0)
 	_load_all_item_icons()
 
@@ -56,6 +60,13 @@ func update_countdown(tick: int) -> void:
 		countdown_label.show()
 	else:
 		countdown_label.hide()
+
+func show_track_name(track_name: String) -> void:
+	track_name_label.text = track_name
+	var tween = create_tween()
+	tween.tween_property(track_name_container, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(3.0)
+	tween.tween_property(track_name_container, "modulate:a", 0.0, 1.0)
 
 func on_race_started() -> void:
 	countdown_label.hide()

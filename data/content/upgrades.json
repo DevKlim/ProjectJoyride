@@ -1,7 +1,7 @@
 [
   {
     "id": "slick_tires",
-    "name": "Slick Tires",
+    "name": "Synth-Grip Tires",
     "type": 0,
     "cost": 10,
     "modifiers": {
@@ -11,7 +11,7 @@
   },
   {
     "id": "v8_engine",
-    "name": "V8 Turbo Engine",
+    "name": "Flux Core Engine",
     "type": 1,
     "cost": 15,
     "modifiers": {
@@ -21,7 +21,7 @@
   },
   {
     "id": "lightweight_chassis",
-    "name": "Carbon Chassis",
+    "name": "Nano-Carbon Frame",
     "type": 1,
     "cost": 12,
     "modifiers": {
@@ -32,7 +32,7 @@
   },
   {
     "id": "monster_wheels",
-    "name": "Monster Truck Wheels",
+    "name": "Grav-Tread Wheels",
     "type": 2,
     "cost": 25,
     "modifiers": {
@@ -41,5 +41,16 @@
       "weight": 20.0
     },
     "wheel_radius": 0.8
+  },
+  {
+    "id": "overdrive_chip",
+    "name": "Overdrive Chip",
+    "type": 1,
+    "cost": 20,
+    "modifiers": {
+      "top_speed": 25.0,
+      "acceleration": -2.0,
+      "handling": -0.5
+    }
   }
 ]

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="TrackProfileResource" format=3 uid="uid://cfff68ifdov3w"]
+
+[ext_resource type="Script" uid="uid://cgqcfywjtm2fw" path="res://scripts/resources/track_profile_resource.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+shape_type = 0

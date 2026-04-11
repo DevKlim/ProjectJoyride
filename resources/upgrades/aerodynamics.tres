@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UpgradeResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/upgrade_resource.gd" id="1_upgrade"]
+
+[resource]
+script = ExtResource("1_upgrade")
+id = "aerodynamics"
+upgrade_name = "Aerodynamics Kit"
+type = 1
+cost = 200
+modifiers = {
+"acceleration": 2.0,
+"handling": 1.0,
+"top_speed": 2.0,
+"weight": -5.0
+}
+

@@ -54,3 +54,17 @@ func parse_components(node: Node3D, component_data: Array) -> void:
 			ib.position = pos
 			ib.name = "ItemBox"
 			node.add_child(ib)
+			
+		elif type == "BoostPad":
+			var bp = Area3D.new()
+			bp.set_script(load("res://scripts/components/track/boost_pad_component.gd"))
+			bp.position = pos
+			bp.name = "BoostPad"
+			node.add_child(bp)
+			
+		elif type == "Hazard":
+			var hz = Area3D.new()
+			hz.set_script(load("res://scripts/components/track/hazard_component.gd"))
+			hz.position = pos
+			hz.name = "Hazard"
+			node.add_child(hz)

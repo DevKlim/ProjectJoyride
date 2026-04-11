@@ -203,3 +203,23 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
+[node name="TrackNameContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -450.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = 100.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+modulate = Color(1, 1, 1, 0)
+
+[node name="TrackNameLabel" type="Label" parent="TrackNameContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+text = "Track Name"

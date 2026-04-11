@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UpgradeResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/upgrade_resource.gd" id="1_upg"]
+
+[resource]
+script = ExtResource("1_upg")
+id = "featherweight_frame"
+upgrade_name = "Featherweight Frame"
+type = 1
+cost = 180
+modifiers = {
+"acceleration": 4.0,
+"handling": 0.5,
+"weight": -10.0
+}
+wheel_radius = 0.4

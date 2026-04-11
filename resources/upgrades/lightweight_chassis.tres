@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UpgradeResource" format=3 uid="uid://chndu3dyce1r0"]
+
+[ext_resource type="Script" uid="uid://vfv7oijrubdc" path="res://scripts/resources/upgrade_resource.gd" id="1_iuswx"]
+
+[resource]
+script = ExtResource("1_iuswx")
+id = "lightweight_chassis"
+upgrade_name = "Nano-Carbon Frame"
+cost = 12
+modifiers = {
+"acceleration": 5.0,
+"handling": 0.5,
+"weight": -10.0
+}
