@@ -10,6 +10,8 @@ shader_parameter/vignette_multiplier = 0.6
 shader_parameter/scanline_intensity = 0.4
 shader_parameter/bloom_intensity = 0.2
 shader_parameter/blur_amount = 2.0
+shader_parameter/use_color_snapping = true
+shader_parameter/color_steps = 32.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_speed"]
 shader = ExtResource("3_speed")

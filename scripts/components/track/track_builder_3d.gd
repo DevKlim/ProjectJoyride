@@ -23,6 +23,9 @@ signal track_rebuilt
 @export var road_material: Material:
 	set(v): road_material = v; _queue_rebuild()
 
+@export var wall_material: Material:
+	set(v): wall_material = v; _queue_rebuild()
+
 @export_category("Global Tunnel Lighting")
 @export var generate_lights: bool = false
 @export var light_color: Color = Color(1.0, 0.9, 0.7)
@@ -169,7 +172,6 @@ func _rebuild_meshes() -> void:
 	var segment_count = point_count - 1
 	if path_closed: segment_count += 1
 
-	# Render per-segment directly to allow seamless changes in material and properties
 	for seg in range(segment_count):
 		var start_offset = 0.0
 		var end_offset = 0.0
@@ -187,9 +189,9 @@ func _rebuild_meshes() -> void:
 		var steps = int(max(1, ceil(seg_length / resolution)))
 		var actual_res = seg_length / steps
 
-		# Segment Override Resolution
 		var active_profile = profile
 		var active_mat = road_material
+		var active_wall_mat = wall_material
 		var gen_front = false
 		var gen_back = false
 		
@@ -197,7 +199,6 @@ func _rebuild_meshes() -> void:
 		var s_start_width = 40.0
 		var s_end_width = 40.0
 		
-		# Lighting Default Fallbacks
 		var do_lights = generate_lights
 		var l_col = light_color
 		var l_en = light_energy
@@ -208,6 +209,7 @@ func _rebuild_meshes() -> void:
 			var s = segments[seg]
 			if s.override_profile: active_profile = s.override_profile
 			if s.override_material: active_mat = s.override_material
+			if s.override_wall_material: active_wall_mat = s.override_wall_material
 			gen_front = s.generate_front_face
 			gen_back = s.generate_back_face
 			
@@ -229,9 +231,8 @@ func _rebuild_meshes() -> void:
 		if not active_profile:
 			active_profile = TrackProfileResource.new()
 
-		# Setup dynamic lights for tunnel segments
 		if do_lights and active_profile.shape_type == TrackProfileResource.ProfileType.TUNNEL:
-			var dist = l_spc * 0.5 # Start slightly into the segment
+			var dist = l_spc * 0.5
 			while dist < seg_length:
 				var c_offset = start_offset + dist
 				var t = curve.sample_baked_with_rotation(c_offset)
@@ -243,7 +244,6 @@ func _rebuild_meshes() -> void:
 				light.shadow_enabled = true
 				light.omni_range = l_spc * 1.5
 				
-				# Place light dynamically at the roof's core height using Transform Basis
 				var local_pos = Vector3(0, active_profile.wall_height - 1.0, 0)
 				light.position = t * local_pos
 				lights_container.add_child(light)
@@ -258,84 +258,140 @@ func _rebuild_meshes() -> void:
 		sweep_lines.append(profile_lines[0])
 		var cols = sweep_lines.size()
 
-		var st = SurfaceTool.new()
-		st.begin(Mesh.PRIMITIVE_TRIANGLES)
-		if active_mat: st.set_material(active_mat)
+		var st_road = SurfaceTool.new()
+		st_road.begin(Mesh.PRIMITIVE_TRIANGLES)
+		if active_mat: st_road.set_material(active_mat)
 
-		# Evaluate U Coords
+		var st_wall = SurfaceTool.new()
+		st_wall.begin(Mesh.PRIMITIVE_TRIANGLES)
+		if active_wall_mat: st_wall.set_material(active_wall_mat)
+		elif active_mat: st_wall.set_material(active_mat)
+
 		var u_coords = [0.0]
 		var current_u = 0.0
 		for i in range(1, cols):
 			current_u += sweep_lines[i].distance_to(sweep_lines[i-1])
 			u_coords.append(current_u)
 
-		# Generate Verts for this isolated segment
-		for r in range(steps + 1):
-			var c_offset = start_offset + (r * actual_res)
-			if r == steps: c_offset = end_offset # Snap tight to end
+		var idx_road = 0
+		var idx_wall = 0
 
-			var t = curve.sample_baked_with_rotation(c_offset)
-			var v_coord = base_v_coord + (c_offset - start_offset)
-
-			if path_closed and r == steps and seg == segment_count - 1:
-				t = curve.sample_baked_with_rotation(0.0)
-
-			var current_width = base_profile_width
-			if has_width_override:
-				var progress = float(r) / float(steps)
-				current_width = lerp(s_start_width, s_end_width, progress)
+		for c in range(cols - 1):
+			var c_next = c + 1
+			var p1_base = sweep_lines[c]
+			var p2_base = sweep_lines[c_next]
+			var dir = (p2_base - p1_base).normalized()
+			
+			# Extract 2D Normal to dynamically determine if this segment is ROAD or WALL
+			var n2d = Vector2(-dir.y, dir.x)
+			var is_road = n2d.y > 0.5 
+			
+			var target_st = st_road if is_road else st_wall
+			
+			for r in range(steps):
+				var r0_offset = start_offset + (r * actual_res)
+				var r1_offset = start_offset + ((r + 1) * actual_res)
+				if r == steps - 1: r1_offset = end_offset
 				
-			var current_profile_lines = active_profile.get_profile_points(current_width)
-
-			for c in range(cols):
-				var p2d = current_profile_lines[c] if c < current_profile_lines.size() else current_profile_lines[-1]
-				var p3d = t * Vector3(p2d.x, p2d.y, 0)
-				st.set_uv(Vector2(u_coords[c] * uv_scale.x, v_coord * uv_scale.y))
-				st.add_vertex(p3d)
+				var t0 = curve.sample_baked_with_rotation(r0_offset)
+				var t1 = curve.sample_baked_with_rotation(r1_offset)
+				
+				if path_closed and r == steps - 1 and seg == segment_count - 1:
+					t1 = curve.sample_baked_with_rotation(0.0)
+					
+				var w0 = base_profile_width
+				var w1 = base_profile_width
+				if has_width_override:
+					w0 = lerp(s_start_width, s_end_width, float(r) / steps)
+					w1 = lerp(s_start_width, s_end_width, float(r + 1) / steps)
+					
+				var pl0 = active_profile.get_profile_points(w0)
+				var pl1 = active_profile.get_profile_points(w1)
+				
+				var p0_c = pl0[c]
+				var p0_n = pl0[c_next] if c_next < pl0.size() else pl0[0]
+				var p1_c = pl1[c]
+				var p1_n = pl1[c_next] if c_next < pl1.size() else pl1[0]
+				
+				var v0 = t0 * Vector3(p0_c.x, p0_c.y, 0)
+				var v1 = t0 * Vector3(p0_n.x, p0_n.y, 0)
+				var v2 = t1 * Vector3(p1_c.x, p1_c.y, 0)
+				var v3 = t1 * Vector3(p1_n.x, p1_n.y, 0)
+				
+				var u0 = u_coords[c] * uv_scale.x
+				var u1 = u_coords[c_next] * uv_scale.x
+				var v_uv0 = (base_v_coord + (r * actual_res)) * uv_scale.y
+				var v_uv1 = (base_v_coord + ((r + 1) * actual_res)) * uv_scale.y
+				
+				var current_idx = idx_road if is_road else idx_wall
+				
+				target_st.set_uv(Vector2(u0, v_uv0)); target_st.add_vertex(v0)
+				target_st.set_uv(Vector2(u1, v_uv0)); target_st.add_vertex(v1)
+				target_st.set_uv(Vector2(u0, v_uv1)); target_st.add_vertex(v2)
+				target_st.set_uv(Vector2(u1, v_uv1)); target_st.add_vertex(v3)
+				
+				target_st.add_index(current_idx + 0)
+				target_st.add_index(current_idx + 2)
+				target_st.add_index(current_idx + 1)
+				
+				target_st.add_index(current_idx + 1)
+				target_st.add_index(current_idx + 2)
+				target_st.add_index(current_idx + 3)
+				
+				if is_road: idx_road += 4
+				else: idx_wall += 4
 
 		base_v_coord += seg_length
 
-		# Generate Tube Indices
-		for r in range(steps):
-			for c in range(cols - 1):
-				var v0 = r * cols + c
-				var v1 = v0 + 1
-				var v2 = (r + 1) * cols + c
-				var v3 = v2 + 1
-
-				st.add_index(v0)
-				st.add_index(v2)
-				st.add_index(v1)
-
-				st.add_index(v1)
-				st.add_index(v2)
-				st.add_index(v3)
-
-		# Generate Face Caps
+		# Face Caps automatically pushed to the wall geometry handler
 		if gen_front:
 			var indices = Geometry2D.triangulate_polygon(profile_lines)
 			if indices.size() > 0:
+				var w0 = s_start_width if has_width_override else base_profile_width
+				var pl0 = active_profile.get_profile_points(w0)
+				var t0 = curve.sample_baked_with_rotation(start_offset)
+				
+				var cap_start = idx_wall
+				for i in range(pl0.size()):
+					st_wall.set_uv(Vector2(pl0[i].x, pl0[i].y) * uv_scale)
+					st_wall.add_vertex(t0 * Vector3(pl0[i].x, pl0[i].y, 0))
 				for i in range(0, indices.size(), 3):
-					st.add_index(indices[i+2])
-					st.add_index(indices[i+1])
-					st.add_index(indices[i])
+					st_wall.add_index(cap_start + indices[i+2])
+					st_wall.add_index(cap_start + indices[i+1])
+					st_wall.add_index(cap_start + indices[i])
+                
+				idx_wall += pl0.size()
 
 		if gen_back:
-			var offset = steps * cols
 			var indices = Geometry2D.triangulate_polygon(profile_lines)
 			if indices.size() > 0:
+				var w1 = s_end_width if has_width_override else base_profile_width
+				var pl1 = active_profile.get_profile_points(w1)
+				var t1 = curve.sample_baked_with_rotation(end_offset)
+				
+				var cap_start = idx_wall
+				for i in range(pl1.size()):
+					st_wall.set_uv(Vector2(pl1[i].x, pl1[i].y) * uv_scale)
+					st_wall.add_vertex(t1 * Vector3(pl1[i].x, pl1[i].y, 0))
 				for i in range(0, indices.size(), 3):
-					st.add_index(offset + indices[i])
-					st.add_index(offset + indices[i+1])
-					st.add_index(offset + indices[i+2])
+					st_wall.add_index(cap_start + indices[i])
+					st_wall.add_index(cap_start + indices[i+1])
+					st_wall.add_index(cap_start + indices[i+2])
+					
+				idx_wall += pl1.size()
 
-		st.generate_normals()
-		st.generate_tangents()
-		
 		var seg_mesh = ArrayMesh.new()
-		st.commit(seg_mesh)
 
-		# Finalize Hierarchy for THIS segment
+		if idx_road > 0:
+			st_road.generate_normals()
+			st_road.generate_tangents()
+			st_road.commit(seg_mesh)
+
+		if idx_wall > 0:
+			st_wall.generate_normals()
+			st_wall.generate_tangents()
+			st_wall.commit(seg_mesh)
+
 		var mesh_inst = MeshInstance3D.new()
 		mesh_inst.name = "GeneratedTrackMesh_Seg_" + str(seg)
 		mesh_inst.mesh = seg_mesh
@@ -377,6 +433,7 @@ func _create_branch(point_idx: int) -> void:
 
 	new_node.profile = self.profile.duplicate() if self.profile else null
 	new_node.road_material = self.road_material
+	new_node.wall_material = self.wall_material
 
 	var c = Curve3D.new()
 	var p_pos = curve.get_point_position(point_idx)
@@ -389,10 +446,10 @@ func _create_branch(point_idx: int) -> void:
 		else:
 			forward = Vector3.FORWARD
 
-	# Extrude a branch outwards to act as our merging track guide seamlessly positioned
 	c.add_point(p_pos, -forward * 5.0, forward * 5.0)
 	c.add_point(p_pos + forward * 30.0, -forward * 5.0, forward * 5.0)
 	
 	new_node.curve = c
-	new_node.generate_front_face = false # Automatically open face so it intersects natively
+	new_node.generate_front_face = false 
 	print("Auto-branched generated at point index: ", point_idx)
+

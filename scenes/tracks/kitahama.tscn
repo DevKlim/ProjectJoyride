@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ulunb7m5n7dc"]
 
 [ext_resource type="Script" uid="uid://ctoeh6ih854ey" path="res://scripts/components/track/road_component.gd" id="1_road"]
-[ext_resource type="Resource" path="res://resources/roads/half_pipe.tres" id="2_5v7ip"]
+[ext_resource type="Resource" uid="uid://cgeobwl2ya5wa" path="res://resources/roads/half_pipe.tres" id="2_5v7ip"]
 [ext_resource type="Script" uid="uid://blu4wmvmwwomr" path="res://scripts/components/track/start_position_component.gd" id="2_start"]
 [ext_resource type="Script" uid="uid://d1s6es8qo5kln" path="res://scripts/components/track/checkpoint_area.gd" id="3_check"]
 [ext_resource type="Script" uid="uid://bqoq3nbxb68rq" path="res://scripts/components/track/offbounds_area.gd" id="4_off"]
@@ -64,8 +64,15 @@ road_width = 100.0
 track_depth = 50.0
 metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
 
+[sub_resource type="Resource" id="Resource_db5q4"]
+script = ExtResource("8_l81el")
+wall_height = 100.0
+wall_angle = 50.0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
 [sub_resource type="Resource" id="Resource_ao1p7"]
 script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_db5q4")
 override_width = true
 start_width = 120.0
 end_width = 500.0
@@ -101,15 +108,126 @@ metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
 
 [sub_resource type="Curve3D" id="Curve3D_4boo1"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -155.66562, -81.71416, -1586.3738, 8.002197, 1.6923828, 93.54883, -8.002197, -1.6923828, -93.54883, -108.962364, -76.24695, -1981.9202, 61.692062, -24.571983, 48.822266, -61.692062, 24.571983, -48.822266, -172.1103, -64.14895, -2490.7642, -63.668015, -8.710495, 30.550293, 63.668015, 8.710495, -30.550293, -193.4232, -46.059967, -2644.947, -15.915955, 1.9004822, -45.984863, 15.915955, -1.9004822, 45.984863, -32.96254, -68.387924, -2526.8643, -39.80787, 8.27787, -82.579346, 39.80787, -8.27787, 82.579346, 80.99087, -76.49662, -2228.7722, -15.528473, 8.832748, -76.81494, 15.528473, -8.832748, 76.81494, 183.53853, -75.85901, -1816.257, 0, 0, 0, 0, 0, 0, 121.50407, -75.75281, -1306.6674, 0, 0, 0, 0, 0, 0, 6.624691, -75.62048, -934.5424, 0, 0, 0, 0, 0, 0, -63.506668, -75.73303, -217.04169, 0, 0, 0, 0, 0, 0, 466.00555, -76.16528, -63.532593),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -156.50365, -101.28419, -1588.5292, 8.002197, 1.6923828, 93.54883, -8.002197, -1.6923828, -93.54883, -112.759705, -95.05371, -1986.1677, 32.235138, -19.111206, 72.43555, -32.235138, 19.111206, -72.43555, -167.90962, -81.110016, -2525.986, -64.10477, -1.8444672, 30.636475, 64.10477, 1.8444672, -30.636475, -202.11519, -20.32399, -2723.9392, -6.043991, 24.599625, -53.768555, 6.043991, -24.599625, 53.768555, -5.389847, -61.105072, -2538.357, -25.891815, -1.4201736, -87.44678, 25.891815, 1.4201736, 87.44678, 69.38255, -76.855606, -2223.504, -13.72345, -3.1719818, -48.63147, 13.72345, 3.1719818, 48.63147, 183.51297, -69.436905, -1807.3306, 0, 0, 0, 0, 0, 0, 89.836296, -77.52702, -1303.1998, 0, 0, 0, 0, 0, 0, 11.204876, -80.62256, -939.9009, 0, 0, 0, 0, 0, 0, -28.4457, -77.964325, -737.06195, -56.977966, 5.5038147, -151.70914, 56.977966, -5.5038147, 151.70914, -63.506668, -75.73303, -217.04169, 0, 0, 0, 0, 0, 0, 466.00555, -76.16528, -63.532593),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
-point_count = 11
+point_count = 12
 
 [sub_resource type="Resource" id="Resource_csi5x"]
 script = ExtResource("8_l81el")
+wall_height = 20.0
+wall_thickness = 60.0
+wall_angle = 10.0
+is_right_wall_open = true
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_sku77"]
+script = ExtResource("8_l81el")
+wall_height = 20.0
+wall_thickness = 60.0
+wall_angle = 10.0
+track_depth = 8.0
+is_right_wall_open = true
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_2umke"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_sku77")
+override_width = true
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_35srv"]
+script = ExtResource("8_l81el")
+wall_height = 20.0
+wall_thickness = 60.0
+wall_angle = 10.0
+track_depth = 8.0
+is_right_wall_open = true
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_g48in"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_35srv")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_nw5dq"]
+script = ExtResource("7_3k0sj")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_g17j0"]
+script = ExtResource("8_l81el")
+wall_height = 20.0
+wall_thickness = 60.0
+wall_angle = 10.0
+track_depth = 10.0
+is_right_wall_open = true
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_v706l"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_g17j0")
+override_width = true
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_2u14g"]
+script = ExtResource("8_l81el")
 shape_type = 0
 metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_s1li6"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_2u14g")
+override_width = true
+start_width = 160.0
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_0y0rj"]
+script = ExtResource("8_l81el")
+shape_type = 0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_m2ato"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_0y0rj")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_2u5u3"]
+script = ExtResource("8_l81el")
+shape_type = 0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_4r0p3"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_2u5u3")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_e5i5y"]
+script = ExtResource("8_l81el")
+shape_type = 0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_wwlb7"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_e5i5y")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_eqwds"]
+script = ExtResource("8_l81el")
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_pmtbr"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_eqwds")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
+
+[sub_resource type="Resource" id="Resource_ouw6o"]
+script = ExtResource("8_l81el")
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
+[sub_resource type="Resource" id="Resource_0uag7"]
+script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_ouw6o")
+metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wallride"]
 albedo_color = Color(0.2, 0.1, 0.4, 1)
@@ -199,6 +317,9 @@ track_offset = 150.0
 length = 20.0
 width = 20.0
 boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostPad2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1081289069]
@@ -207,6 +328,9 @@ track_offset = 200.0
 length = 20.0
 width = 30.0
 boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostPad3" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1428425963]
@@ -215,16 +339,32 @@ track_offset = 250.0
 length = 20.0
 width = 30.0
 boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
-[node name="TrackElement_JumpRamp" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=258691631]
+[node name="TrackElement_BoostPad4" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=301083056]
 script = ExtResource("11_teb")
-element_type = 2
-track_offset = 350.0
+track_offset = 450.0
 length = 20.0
-lateral_offset = 15.0
-ramp_height = 8.0
-element_material = ExtResource("13_mat_r")
+width = 30.0
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+element_material = ExtResource("12_mat_b")
+
+[node name="TrackElement_BoostPad5" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1244121497]
+script = ExtResource("11_teb")
+track_offset = 800.0
+length = 20.0
+width = 30.0
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostRamp" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=477356120]
 script = ExtResource("11_teb")
@@ -234,15 +374,21 @@ length = 40.0
 width = 18.0
 lateral_offset = -8.0
 ramp_height = 10.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_JumpRamp2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1132737128]
 script = ExtResource("11_teb")
 element_type = 2
 track_offset = 350.0
-length = 20.0
+length = 120.0
 lateral_offset = -15.0
 ramp_height = 8.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
 element_material = ExtResource("13_mat_r")
 
 [node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=2078087229]
@@ -250,6 +396,9 @@ script = ExtResource("11_teb")
 element_type = 3
 track_offset = 100.0
 height_offset = 2.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
 item_pools = Array[ExtResource("6_j4yn2")]([SubResource("Resource_3k0sj")])
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
@@ -263,7 +412,7 @@ curve = SubResource("Curve3D_csi5x")
 script = ExtResource("10_trackb")
 profile = SubResource("Resource_4boo1")
 multi_road = true
-segments = Array[ExtResource("7_3k0sj")]([SubResource("Resource_ao1p7"), SubResource("Resource_nqm51"), SubResource("Resource_rccmc"), SubResource("Resource_8j8sg")])
+segments = Array[ExtResource("7_3k0sj")]([SubResource("Resource_ao1p7"), SubResource("Resource_nqm51"), SubResource("Resource_rccmc"), SubResource("Resource_8j8sg"), null])
 metadata/_custom_type_script = "uid://dsvb3u3lxfaoq"
 
 [node name="Path2_5" type="Path3D" parent="Geometry/Road_Main" unique_id=1248324766]
@@ -271,7 +420,79 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.881805, 0)
 curve = SubResource("Curve3D_4boo1")
 script = ExtResource("10_trackb")
 profile = SubResource("Resource_csi5x")
+multi_road = true
+segments = Array[ExtResource("7_3k0sj")]([SubResource("Resource_2umke"), SubResource("Resource_g48in"), SubResource("Resource_nw5dq"), SubResource("Resource_v706l"), SubResource("Resource_s1li6"), SubResource("Resource_m2ato"), SubResource("Resource_4r0p3"), SubResource("Resource_wwlb7"), SubResource("Resource_pmtbr"), SubResource("Resource_0uag7")])
 metadata/_custom_type_script = "uid://dsvb3u3lxfaoq"
+
+[node name="TrackElementBuilder3D" type="Node3D" parent="Geometry/Road_Main/Path2_5" unique_id=1063468466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.378265, 0)
+script = ExtResource("11_teb")
+element_type = 7
+length = 1150.0
+lateral_offset = -15.0
+height_offset = -15.0
+bank_angle = -50.0
+bank_direction = -1
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+bank_wall_height = 0.0
+metadata/_custom_type_script = "uid://bfycrjjymm033"
+
+[node name="TrackElementBuilder3D" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=507223397]
+script = ExtResource("11_teb")
+track_offset = 700.0
+length = 20.0
+height_offset = 0.1
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+metadata/_custom_type_script = "uid://bfycrjjymm033"
+
+[node name="TrackElementBuilder3D2" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=1261707682]
+script = ExtResource("11_teb")
+track_offset = 500.0
+length = 20.0
+height_offset = 0.1
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+metadata/_custom_type_script = "uid://bfycrjjymm033"
+
+[node name="TrackElementBuilder3D3" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=757685894]
+script = ExtResource("11_teb")
+track_offset = 300.0
+length = 20.0
+height_offset = 0.1
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+metadata/_custom_type_script = "uid://bfycrjjymm033"
+
+[node name="TrackElementBuilder3D4" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=720366237]
+script = ExtResource("11_teb")
+track_offset = 900.0
+length = 20.0
+height_offset = 0.1
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+metadata/_custom_type_script = "uid://bfycrjjymm033"
+
+[node name="TrackElementBuilder3D5" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=1449558996]
+script = ExtResource("11_teb")
+track_offset = 1100.0
+length = 20.0
+height_offset = 0.1
+boost_power = 50.0
+bank_subdivisions = null
+bank_trick_enabled = null
+bank_trick_force = null
+metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="Road_Ramp" type="Node3D" parent="Geometry" unique_id=166086970]
 script = ExtResource("1_road")

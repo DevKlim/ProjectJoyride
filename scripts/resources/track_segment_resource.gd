@@ -4,6 +4,7 @@ class_name TrackSegmentResource
 
 @export var override_profile: TrackProfileResource
 @export var override_material: Material
+@export var override_wall_material: Material
 
 @export_group("Width Override")
 @export var override_width: bool = false:
@@ -43,3 +44,4 @@ class_name TrackSegmentResource
 
 func _init() -> void:
 	emit_changed()
+

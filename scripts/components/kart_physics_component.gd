@@ -429,6 +429,29 @@ func _apply_drift_boost() -> void:
 func apply_start_boost(quality: float) -> void:
 	apply_item_boost(quality, 12.0)
 
+func apply_bank_trick(force: float) -> void:
+	y_velocity = max(y_velocity, force)
+	is_grounded = false
+	has_tricked = true
+	perfect_trick = true
+	trick_spin_timer = 0.5
+	
+	# Push them inward using the wall's normal
+	# Strip out Y so we don't launch them artificially higher, just laterally inward
+	var inward_dir = surface_normal
+	inward_dir.y = 0
+	if inward_dir.length_squared() > 0.01:
+		inward_dir = inward_dir.normalized()
+		
+	# Apply lateral kick
+	kart_body.velocity += inward_dir * (force * 0.8)
+	
+	var animator = $"../CharacterAnimatorComponent"
+	if animator: animator.play_trick()
+	elif anim_player:
+		anim_player.stop()
+		anim_player.play("trick_spin")
+
 func _align_with_y(basis: Basis, new_y: Vector3) -> Basis:
 	new_y = new_y.normalized()
 	var x = (-basis.z).cross(new_y)

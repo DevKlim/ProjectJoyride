@@ -1609,12 +1609,15 @@ _data = {
 &"base": SubResource("Animation_uspp7")
 }
 
-[node name="neon_rider" unique_id=222504860 instance=ExtResource("1_csu6b")]
+[node name="neon_rider" unique_id=1796396745 instance=ExtResource("1_csu6b")]
 
-[node name="root" parent="." index="0" unique_id=1889764729]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=507480129]
+libraries/ = SubResource("AnimationLibrary_csu6b")
+
+[node name="root" parent="." index="1" unique_id=1863121336]
 transform = Transform3D(4.7699523e-08, 0, -4, 0, 4, 0, 4, 0, 4.7699523e-08, 0, 0, 0)
 
-[node name="Skeleton3D" parent="root" index="0" unique_id=2146451981]
+[node name="Skeleton3D" parent="root" index="0" unique_id=861781409]
 bones/1/position = Vector3(-4.2312834e-08, 0.038173735, -0.090674326)
 bones/1/rotation = Quaternion(-3.973309e-09, -3.3429556e-06, -4.7112786e-14, 1)
 bones/2/rotation = Quaternion(-0.044734005, 3.4536083e-06, 1.5464853e-07, 0.99899894)
@@ -1647,6 +1650,3 @@ bones/57/rotation = Quaternion(-6.3283366e-08, -5.0750838e-08, -0.5695235, 0.821
 bones/58/rotation = Quaternion(0.06759199, -0.6684523, 0.14093451, 0.7271453)
 bones/59/rotation = Quaternion(1.1688833e-05, 0.9990835, -0.042803682, -5.077433e-07)
 bones/60/rotation = Quaternion(1.7977813e-08, -0.08223904, 7.074122e-09, 0.99661267)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=507480129]
-libraries/ = SubResource("AnimationLibrary_csu6b")
