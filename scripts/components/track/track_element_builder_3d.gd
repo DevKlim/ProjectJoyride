@@ -65,8 +65,12 @@ enum BankDir { LEFT = -1, RIGHT = 1 }
 	set(v): bank_direction = v; _queue_rebuild()
 @export var bank_transition_length: float = 5.0:
 	set(v): bank_transition_length = max(0.1, v); _queue_rebuild()
-@export var bank_subdivisions: int = 1:
-	set(v): bank_subdivisions = max(1, v); _queue_rebuild()
+@export var bank_wall_height: float = 4.0:
+	set(v): bank_wall_height = v; _queue_rebuild()
+@export var bank_wall_material: Material:
+	set(v): bank_wall_material = v; _queue_rebuild()
+@export var bank_has_boost: bool = false:
+	set(v): bank_has_boost = v; _queue_rebuild()
 @export var bank_slope_curve: Curve:
 	set(v): 
 		if bank_slope_curve and bank_slope_curve.changed.is_connected(_queue_rebuild):
@@ -79,12 +83,6 @@ enum BankDir { LEFT = -1, RIGHT = 1 }
 	set(v): bank_trick_enabled = v; _queue_rebuild()
 @export var bank_trick_force: float = 25.0:
 	set(v): bank_trick_force = v; _queue_rebuild()
-@export var bank_wall_height: float = 4.0:
-	set(v): bank_wall_height = v; _queue_rebuild()
-@export var bank_wall_material: Material:
-	set(v): bank_wall_material = v; _queue_rebuild()
-@export var bank_has_boost: bool = false:
-	set(v): bank_has_boost = v; _queue_rebuild()
 
 @export_category("Item Box Settings")
 @export var item_pools: Array[ItemPoolResource] = []
@@ -226,14 +224,6 @@ func _queue_rebuild() -> void:
 		_is_dirty = true
 		call_deferred("_rebuild")
 
-func _safe_add_quad(st: SurfaceTool, i0: int, i1: int, i2: int, i3: int, flip: bool = false) -> void:
-	if flip:
-		st.add_index(i0); st.add_index(i2); st.add_index(i1)
-		st.add_index(i0); st.add_index(i3); st.add_index(i2)
-	else:
-		st.add_index(i0); st.add_index(i1); st.add_index(i2)
-		st.add_index(i0); st.add_index(i2); st.add_index(i3)
-
 func _rebuild() -> void:
 	_is_dirty = false
 	
@@ -243,10 +233,12 @@ func _rebuild() -> void:
 			child.queue_free()
 		
 	var parent_track = _get_parent_track()
-	if not parent_track or not "curve" in parent_track or not parent_track.curve: return
+	if not parent_track or not "curve" in parent_track or not parent_track.curve:
+		return
 		
 	var curve = parent_track.curve
 	var track_len = curve.get_baked_length()
+	
 	if track_len == 0.0:
 		call_deferred("_queue_rebuild")
 		return
@@ -265,7 +257,7 @@ func _rebuild() -> void:
 	# --- BANKED ROAD OVERLAY ---
 	if element_type == ElementType.BANKED_ROAD:
 		var actual_length = min(length, track_len - absolute_track_offset)
-		if actual_length <= 0: return
+		if actual_length <= 0.1: return
 		var steps = int(max(1, ceil(actual_length / resolution)))
 		var actual_res = actual_length / steps
 		
@@ -273,9 +265,18 @@ func _rebuild() -> void:
 		st_road.begin(Mesh.PRIMITIVE_TRIANGLES)
 		st_road.set_material(element_material if element_material else StandardMaterial3D.new())
 		
-		var cols = bank_subdivisions + 1
-		var dir_sign = float(bank_direction)
-		
+		var st_wall = SurfaceTool.new()
+		if bank_wall_height > 0:
+			st_wall.begin(Mesh.PRIMITIVE_TRIANGLES)
+			st_wall.set_material(bank_wall_material if bank_wall_material else StandardMaterial3D.new())
+			
+		var st_boost: SurfaceTool = null
+		if bank_has_boost:
+			st_boost = SurfaceTool.new()
+			st_boost.begin(Mesh.PRIMITIVE_TRIANGLES)
+			var bmat = load("res://resources/materials/track_element_boost.tres")
+			if bmat: st_boost.set_material(bmat)
+			
 		for r in range(steps + 1):
 			var t_dist = absolute_track_offset + (r * actual_res)
 			var progress_ratio = float(r) / float(steps)
@@ -293,65 +294,140 @@ func _rebuild() -> void:
 				var out_dist = actual_length - dist_in
 				current_angle = lerp(0.0, bank_angle, out_dist / max(0.1, bank_transition_length))
 				
-			var base_offset = Vector3(lateral_offset, height_offset + 0.1, 0)
+			var dir_sign = float(bank_direction)
 			var max_y = current_w * sin(deg_to_rad(current_angle))
 			var max_x = current_w * cos(deg_to_rad(current_angle))
+			var local_y = max_y
 			
-			for s in range(cols):
-				var sub_ratio = float(s) / float(bank_subdivisions)
-				var local_y = max_y * sub_ratio
-				if bank_slope_curve:
-					local_y = max_y * bank_slope_curve.sample_baked(sub_ratio)
-				var local_x = max_x * sub_ratio * dir_sign
+			if bank_slope_curve and bank_slope_curve.get_point_count() > 0:
+				local_y = max_y * bank_slope_curve.sample_baked(1.0)
 				
-				var pt_local = base_offset + Vector3(local_x, local_y, 0)
-				var v_coord = progress_ratio * actual_length
+			var road_vec = Vector3(max_x * dir_sign, local_y, 0)
+			var left_local = Vector3.ZERO
+			var right_local = Vector3.ZERO
+			
+			if bank_direction == BankDir.RIGHT:
+				left_local = Vector3(lateral_offset, height_offset + 0.1, 0)
+				right_local = left_local + road_vec
+			else:
+				right_local = Vector3(lateral_offset, height_offset + 0.1, 0)
+				left_local = right_local + road_vec
 				
-				st_road.set_uv(Vector2(sub_ratio, v_coord))
-				st_road.add_vertex(trans * pt_local)
+			var left_top = trans * left_local
+			var right_top = trans * right_local
+			var left_bot = trans * (left_local + Vector3(0, -2.0, 0))
+			var right_bot = trans * (right_local + Vector3(0, -2.0, 0))
+			
+			var v_coord = progress_ratio * actual_length
+			
+			st_road.set_uv(Vector2(0, v_coord))
+			st_road.add_vertex(left_top)
+			st_road.set_uv(Vector2(1, v_coord))
+			st_road.add_vertex(right_top)
+			st_road.set_uv(Vector2(0, v_coord))
+			st_road.add_vertex(left_bot)
+			st_road.set_uv(Vector2(1, v_coord))
+			st_road.add_vertex(right_bot)
+			
+			if bank_wall_height > 0:
+				var w_left = Vector3.ZERO
+				var w_right = Vector3.ZERO
+				if bank_direction == BankDir.RIGHT:
+					w_left = right_local
+					w_right = right_local + Vector3(1.0, 0, 0)
+				else:
+					w_left = left_local + Vector3(-1.0, 0, 0)
+					w_right = left_local
+					
+				var w_left_top = trans * (w_left + Vector3(0, bank_wall_height, 0))
+				var w_right_top = trans * (w_right + Vector3(0, bank_wall_height, 0))
+				var w_left_bot = trans * w_left
+				var w_right_bot = trans * w_right
 				
-				st_road.set_uv(Vector2(sub_ratio, v_coord))
-				st_road.add_vertex(trans * (pt_local + Vector3(0, -2.0, 0)))
+				st_wall.set_uv(Vector2(0, v_coord))
+				st_wall.add_vertex(w_left_top)
+				st_wall.set_uv(Vector2(1, v_coord))
+				st_wall.add_vertex(w_right_top)
+				st_wall.set_uv(Vector2(0, v_coord))
+				st_wall.add_vertex(w_left_bot)
+				st_wall.set_uv(Vector2(1, v_coord))
+				st_wall.add_vertex(w_right_bot)
+				
+			if st_boost:
+				var b_w = boost_pad_size.x
+				var local_center = current_w * 0.5
+				var local_b_left = local_center - b_w * 0.5
+				var local_b_right = local_center + b_w * 0.5
+				
+				var b_left_pos: Vector3
+				var b_right_pos: Vector3
+				
+				if bank_direction == BankDir.RIGHT:
+					var vec_l = Vector3(local_b_left, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(current_angle))
+					var vec_r = Vector3(local_b_right, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(current_angle))
+					b_left_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_l)
+					b_right_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_r)
+				else:
+					var vec_l = Vector3(-local_b_right, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(-current_angle))
+					var vec_r = Vector3(-local_b_left, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(-current_angle))
+					b_left_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_l)
+					b_right_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_r)
+					
+				st_boost.set_uv(Vector2(0, v_coord))
+				st_boost.add_vertex(b_left_pos)
+				st_boost.set_uv(Vector2(1, v_coord))
+				st_boost.add_vertex(b_right_pos)
 				
 		for r in range(steps):
-			for s in range(bank_subdivisions):
-				var r0 = r * cols * 2
-				var r1 = (r + 1) * cols * 2
-				var top_l = r0 + s * 2
-				var top_r = top_l + 2
-				var bot_l = top_l + 1
-				var bot_r = top_r + 1
-				var n_top_l = r1 + s * 2
-				var n_top_r = n_top_l + 2
-				var n_bot_l = n_top_l + 1
-				var n_bot_r = n_top_r + 1
+			var v0 = r * 4
+			var v1 = v0 + 1
+			var v2 = v0 + 2
+			var v3 = v0 + 3
+			var v4 = (r + 1) * 4
+			var v5 = v4 + 1
+			var v6 = v4 + 2
+			var v7 = v4 + 3
+			
+			st_road.add_index(v0); st_road.add_index(v4); st_road.add_index(v5)
+			st_road.add_index(v0); st_road.add_index(v5); st_road.add_index(v1)
+			st_road.add_index(v2); st_road.add_index(v3); st_road.add_index(v7)
+			st_road.add_index(v2); st_road.add_index(v7); st_road.add_index(v6)
+			st_road.add_index(v0); st_road.add_index(v2); st_road.add_index(v6)
+			st_road.add_index(v0); st_road.add_index(v6); st_road.add_index(v4)
+			st_road.add_index(v1); st_road.add_index(v5); st_road.add_index(v7)
+			st_road.add_index(v1); st_road.add_index(v7); st_road.add_index(v3)
+			
+			if bank_wall_height > 0:
+				st_wall.add_index(v0); st_wall.add_index(v4); st_wall.add_index(v5)
+				st_wall.add_index(v0); st_wall.add_index(v5); st_wall.add_index(v1)
+				st_wall.add_index(v2); st_wall.add_index(v3); st_wall.add_index(v7)
+				st_wall.add_index(v2); st_wall.add_index(v7); st_wall.add_index(v6)
+				st_wall.add_index(v0); st_wall.add_index(v2); st_wall.add_index(v6)
+				st_wall.add_index(v0); st_wall.add_index(v6); st_wall.add_index(v4)
+				st_wall.add_index(v1); st_wall.add_index(v5); st_wall.add_index(v7)
+				st_wall.add_index(v1); st_wall.add_index(v7); st_wall.add_index(v3)
 				
-				var flip = bank_direction == BankDir.RIGHT
-				_safe_add_quad(st_road, top_l, top_r, n_top_r, n_top_l, !flip)
-				_safe_add_quad(st_road, bot_l, bot_r, n_bot_r, n_bot_l, flip)
+			if st_boost:
+				var b0 = r * 2
+				var b1 = b0 + 1
+				var b2 = (r + 1) * 2
+				var b3 = b2 + 1
+				st_boost.add_index(b0); st_boost.add_index(b2); st_boost.add_index(b3)
+				st_boost.add_index(b0); st_boost.add_index(b3); st_boost.add_index(b1)
 				
-				if s == 0:
-					_safe_add_quad(st_road, top_l, n_top_l, n_bot_l, bot_l, !flip)
-				if s == bank_subdivisions - 1:
-					_safe_add_quad(st_road, top_r, n_top_r, n_bot_r, bot_r, flip)
-
-		for s in range(bank_subdivisions):
-			var top_l = s * 2
-			var top_r = top_l + 2
-			var bot_l = top_l + 1
-			var bot_r = top_r + 1
-			_safe_add_quad(st_road, top_l, top_r, bot_r, bot_l, bank_direction == BankDir.LEFT)
-				
-		var last_r0 = steps * cols * 2
-		for s in range(bank_subdivisions):
-			var top_l = last_r0 + s * 2
-			var top_r = top_l + 2
-			var bot_l = top_l + 1
-			var bot_r = top_r + 1
-			_safe_add_quad(st_road, top_l, top_r, bot_r, bot_l, bank_direction == BankDir.RIGHT)
-
-		st_road.generate_normals()
-		st_road.generate_tangents()
+		st_road.add_index(0); st_road.add_index(1); st_road.add_index(3)
+		st_road.add_index(0); st_road.add_index(3); st_road.add_index(2)
+		var end0 = steps * 4
+		st_road.add_index(end0); st_road.add_index(end0 + 2); st_road.add_index(end0 + 3)
+		st_road.add_index(end0); st_road.add_index(end0 + 3); st_road.add_index(end0 + 1)
+		
+		if bank_wall_height > 0:
+			st_wall.add_index(0); st_wall.add_index(1); st_wall.add_index(3)
+			st_wall.add_index(0); st_wall.add_index(3); st_wall.add_index(2)
+			st_wall.add_index(end0); st_wall.add_index(end0 + 2); st_wall.add_index(end0 + 3)
+			st_wall.add_index(end0); st_wall.add_index(end0 + 3); st_wall.add_index(end0 + 1)
+			
+		st_road.generate_normals(); st_road.generate_tangents()
 		var mesh_road = ArrayMesh.new()
 		st_road.commit(mesh_road)
 		var mi_road = MeshInstance3D.new()
@@ -366,50 +442,7 @@ func _rebuild() -> void:
 		mi_road.add_child(sb_road)
 		
 		if bank_wall_height > 0:
-			var st_wall = SurfaceTool.new()
-			st_wall.begin(Mesh.PRIMITIVE_TRIANGLES)
-			st_wall.set_material(bank_wall_material if bank_wall_material else StandardMaterial3D.new())
-			
-			for r in range(steps + 1):
-				var t_dist = absolute_track_offset + (r * actual_res)
-				var progress_ratio = float(r) / float(steps)
-				var trans = _get_absolute_transform_at_offset(t_dist)
-				
-				var current_w = width
-				if match_track_width and parent_track.has_method("get_track_width_at_offset"):
-					current_w = parent_track.get_track_width_at_offset(t_dist) * width_ratio
-					
-				var dist_in = r * actual_res
-				var current_angle = bank_angle
-				if dist_in < bank_transition_length:
-					current_angle = lerp(0.0, bank_angle, dist_in / max(0.1, bank_transition_length))
-				elif dist_in > actual_length - bank_transition_length:
-					var out_dist = actual_length - dist_in
-					current_angle = lerp(0.0, bank_angle, out_dist / max(0.1, bank_transition_length))
-					
-				var max_y = current_w * sin(deg_to_rad(current_angle))
-				var max_x = current_w * cos(deg_to_rad(current_angle))
-				var local_y = max_y
-				if bank_slope_curve: local_y = max_y * bank_slope_curve.sample_baked(1.0)
-					
-				var base_offset = Vector3(lateral_offset, height_offset + 0.1, 0)
-				var pt_local = base_offset + Vector3(max_x * dir_sign, local_y, 0)
-				
-				var v_coord = progress_ratio * actual_length
-				st_wall.set_uv(Vector2(0, v_coord))
-				st_wall.add_vertex(trans * (pt_local + Vector3(0, bank_wall_height, 0)))
-				st_wall.set_uv(Vector2(1, v_coord))
-				st_wall.add_vertex(trans * pt_local)
-				
-			for r in range(steps):
-				var top_l = r * 2
-				var bot_l = top_l + 1
-				var top_r = (r + 1) * 2
-				var bot_r = top_r + 1
-				_safe_add_quad(st_wall, top_l, top_r, bot_r, bot_l, bank_direction == BankDir.LEFT)
-					
-			st_wall.generate_normals()
-			st_wall.generate_tangents()
+			st_wall.generate_normals(); st_wall.generate_tangents()
 			var mesh_wall = ArrayMesh.new()
 			st_wall.commit(mesh_wall)
 			var mi_wall = MeshInstance3D.new()
@@ -423,58 +456,7 @@ func _rebuild() -> void:
 			if col_wall.shape: sb_wall.add_child(col_wall)
 			mi_wall.add_child(sb_wall)
 			
-		if bank_has_boost:
-			var st_boost = SurfaceTool.new()
-			st_boost.begin(Mesh.PRIMITIVE_TRIANGLES)
-			var bmat = load("res://resources/materials/track_element_boost.tres")
-			if bmat: st_boost.set_material(bmat)
-			
-			for r in range(steps + 1):
-				var t_dist = absolute_track_offset + (r * actual_res)
-				var trans = _get_absolute_transform_at_offset(t_dist)
-				var current_w = width
-				if match_track_width and parent_track.has_method("get_track_width_at_offset"):
-					current_w = parent_track.get_track_width_at_offset(t_dist) * width_ratio
-					
-				var dist_in = r * actual_res
-				var current_angle = bank_angle
-				if dist_in < bank_transition_length:
-					current_angle = lerp(0.0, bank_angle, dist_in / max(0.1, bank_transition_length))
-				elif dist_in > actual_length - bank_transition_length:
-					var out_dist = actual_length - dist_in
-					current_angle = lerp(0.0, bank_angle, out_dist / max(0.1, bank_transition_length))
-					
-				var max_y = current_w * sin(deg_to_rad(current_angle))
-				var max_x = current_w * cos(deg_to_rad(current_angle))
-				
-				var b_w = boost_pad_size.x
-				var sub_left = clamp(0.5 - (b_w / current_w * 0.5), 0.0, 1.0)
-				var sub_right = clamp(0.5 + (b_w / current_w * 0.5), 0.0, 1.0)
-				
-				var b_left_y = max_y * sub_left
-				var b_right_y = max_y * sub_right
-				if bank_slope_curve:
-					b_left_y = max_y * bank_slope_curve.sample_baked(sub_left)
-					b_right_y = max_y * bank_slope_curve.sample_baked(sub_right)
-					
-				var b_left_x = max_x * sub_left * dir_sign
-				var b_right_x = max_x * sub_right * dir_sign
-				
-				var base_offset = Vector3(lateral_offset, height_offset + 0.15, 0)
-				var v_coord = (float(r) / float(steps)) * actual_length
-				
-				st_boost.set_uv(Vector2(0, v_coord))
-				st_boost.add_vertex(trans * (base_offset + Vector3(b_left_x, b_left_y, 0)))
-				st_boost.set_uv(Vector2(1, v_coord))
-				st_boost.add_vertex(trans * (base_offset + Vector3(b_right_x, b_right_y, 0)))
-				
-			for r in range(steps):
-				var top_l = r * 2
-				var top_r = top_l + 1
-				var bot_l = (r + 1) * 2
-				var bot_r = bot_l + 1
-				_safe_add_quad(st_boost, top_l, top_r, bot_r, bot_l, bank_direction == BankDir.LEFT)
-					
+		if st_boost:
 			st_boost.generate_normals(); st_boost.generate_tangents()
 			var mesh_boost = ArrayMesh.new()
 			st_boost.commit(mesh_boost)
@@ -493,12 +475,14 @@ func _rebuild() -> void:
 			if col_boost.shape: boost_area.add_child(col_boost)
 			mi_boost.add_child(boost_area)
 
+		# Isolated Bank Trick Trigger (does not touch the mesh indexing logic above)
 		if bank_trick_enabled:
 			var st_trick = SurfaceTool.new()
 			st_trick.begin(Mesh.PRIMITIVE_TRIANGLES)
 			for r in range(steps + 1):
 				var t_dist = absolute_track_offset + (r * actual_res)
 				var trans = _get_absolute_transform_at_offset(t_dist)
+				
 				var current_w = width
 				if match_track_width and parent_track.has_method("get_track_width_at_offset"):
 					current_w = parent_track.get_track_width_at_offset(t_dist) * width_ratio
@@ -511,10 +495,12 @@ func _rebuild() -> void:
 					var out_dist = actual_length - dist_in
 					current_angle = lerp(0.0, bank_angle, out_dist / max(0.1, bank_transition_length))
 					
+				var dir_sign = float(bank_direction)
 				var max_y = current_w * sin(deg_to_rad(current_angle))
 				var max_x = current_w * cos(deg_to_rad(current_angle))
 				var local_y = max_y
-				if bank_slope_curve: local_y = max_y * bank_slope_curve.sample_baked(1.0)
+				if bank_slope_curve and bank_slope_curve.get_point_count() > 0: 
+					local_y = max_y * bank_slope_curve.sample_baked(1.0)
 					
 				var base_offset = Vector3(lateral_offset, height_offset + 0.1, 0)
 				var pt_local = base_offset + Vector3(max_x * dir_sign, local_y, 0)
@@ -523,11 +509,16 @@ func _rebuild() -> void:
 				st_trick.add_vertex(trans * (pt_local + Vector3(3.0 * dir_sign, 5.0, 0)))
 				
 			for r in range(steps):
-				var top_l = r * 2
-				var top_r = top_l + 1
-				var bot_l = (r + 1) * 2
-				var bot_r = bot_l + 1
-				_safe_add_quad(st_trick, top_l, top_r, bot_r, bot_l, bank_direction == BankDir.LEFT)
+				var t0 = r * 2
+				var t1 = t0 + 1
+				var t2 = (r + 1) * 2
+				var t3 = t2 + 1
+				if bank_direction == BankDir.RIGHT:
+					st_trick.add_index(t0); st_trick.add_index(t2); st_trick.add_index(t3)
+					st_trick.add_index(t0); st_trick.add_index(t3); st_trick.add_index(t1)
+				else:
+					st_trick.add_index(t0); st_trick.add_index(t3); st_trick.add_index(t2)
+					st_trick.add_index(t0); st_trick.add_index(t1); st_trick.add_index(t3)
 					
 			st_trick.generate_normals()
 			var trick_mesh = ArrayMesh.new()
@@ -547,7 +538,7 @@ func _rebuild() -> void:
 	# --- MESH BASED ELEMENTS (RAMPS & BOOST PADS) ---
 	elif element_type in [ElementType.FLAT_BOOST_PAD, ElementType.BOOST_RAMP, ElementType.JUMP_RAMP]:
 		var actual_length = min(length, track_len - absolute_track_offset)
-		if actual_length <= 0: return
+		if actual_length <= 0.1: return
 		var steps = int(max(1, ceil(actual_length / resolution)))
 		var actual_res = actual_length / steps
 		
@@ -574,38 +565,50 @@ func _rebuild() -> void:
 			
 			if element_type in [ElementType.BOOST_RAMP, ElementType.JUMP_RAMP]:
 				var ratio = progress_ratio
-				if ramp_curve: ratio = ramp_curve.sample_baked(progress_ratio)
+				if ramp_curve and ramp_curve.get_point_count() > 0: 
+					ratio = ramp_curve.sample_baked(progress_ratio)
 				h = lerp(height_offset + 0.05, height_offset + ramp_height, ratio)
 				
+			var top_l = trans * (Vector3(-half_w_step + lateral_offset, h, 0))
+			var top_r = trans * (Vector3(half_w_step + lateral_offset, h, 0))
+			var bot_l = trans * (Vector3(-half_w_step + lateral_offset, height_offset, 0))
+			var bot_r = trans * (Vector3(half_w_step + lateral_offset, height_offset, 0))
+			
 			var v_coord = progress_ratio * actual_length
 			
 			st.set_uv(Vector2(0, v_coord))
-			st.add_vertex(trans * (Vector3(-half_w_step + lateral_offset, h, 0)))
+			st.add_vertex(top_l)
 			st.set_uv(Vector2(1, v_coord))
-			st.add_vertex(trans * (Vector3(half_w_step + lateral_offset, h, 0)))
+			st.add_vertex(top_r)
 			st.set_uv(Vector2(0, v_coord))
-			st.add_vertex(trans * (Vector3(-half_w_step + lateral_offset, height_offset, 0)))
+			st.add_vertex(bot_l)
 			st.set_uv(Vector2(1, v_coord))
-			st.add_vertex(trans * (Vector3(half_w_step + lateral_offset, height_offset, 0)))
+			st.add_vertex(bot_r)
 			
 		for r in range(steps):
-			var t_l = r * 4
-			var t_r = t_l + 1
-			var b_l = t_l + 2
-			var b_r = t_l + 3
-			var n_t_l = (r + 1) * 4
-			var n_t_r = n_t_l + 1
-			var n_b_l = n_t_l + 2
-			var n_b_r = n_t_l + 3
+			var v0 = r * 4
+			var v1 = v0 + 1
+			var v2 = v0 + 2
+			var v3 = v0 + 3
+			var v4 = (r + 1) * 4
+			var v5 = v4 + 1
+			var v6 = v4 + 2
+			var v7 = v4 + 3
 			
-			_safe_add_quad(st, t_l, t_r, n_t_r, n_t_l)
-			_safe_add_quad(st, b_l, b_r, n_b_r, n_b_l, true)
-			_safe_add_quad(st, t_l, b_l, n_b_l, n_t_l, true)
-			_safe_add_quad(st, t_r, b_r, n_b_r, n_t_r)
+			st.add_index(v0); st.add_index(v4); st.add_index(v5)
+			st.add_index(v0); st.add_index(v5); st.add_index(v1)
+			st.add_index(v2); st.add_index(v3); st.add_index(v7)
+			st.add_index(v2); st.add_index(v7); st.add_index(v6)
+			st.add_index(v0); st.add_index(v2); st.add_index(v6)
+			st.add_index(v0); st.add_index(v6); st.add_index(v4)
+			st.add_index(v1); st.add_index(v5); st.add_index(v7)
+			st.add_index(v1); st.add_index(v7); st.add_index(v3)
 			
-		_safe_add_quad(st, 0, 1, 3, 2, true)
-		var l_idx = steps * 4
-		_safe_add_quad(st, l_idx, l_idx + 1, l_idx + 3, l_idx + 2)
+		st.add_index(0); st.add_index(1); st.add_index(3)
+		st.add_index(0); st.add_index(3); st.add_index(2)
+		var b0 = steps * 4
+		st.add_index(b0); st.add_index(b0 + 2); st.add_index(b0 + 3)
+		st.add_index(b0); st.add_index(b0 + 3); st.add_index(b0 + 1)
 
 		st.generate_normals()
 		st.generate_tangents()
@@ -683,7 +686,8 @@ func _rebuild() -> void:
 				var t_trans = _get_absolute_transform_at_offset(center_t)
 				
 				var ratio = boost_pad_position_ratio
-				if ramp_curve: ratio = ramp_curve.sample_baked(boost_pad_position_ratio)
+				if ramp_curve and ramp_curve.get_point_count() > 0:
+					ratio = ramp_curve.sample_baked(boost_pad_position_ratio)
 				var h = lerp(height_offset + 0.05, height_offset + ramp_height, ratio)
 				
 				# Execute position offset cleanly on the unmodified rotational axis

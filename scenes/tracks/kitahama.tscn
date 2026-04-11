@@ -316,10 +316,8 @@ script = ExtResource("11_teb")
 track_offset = 150.0
 length = 20.0
 width = 20.0
+height_offset = 1.0
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostPad2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1081289069]
@@ -328,9 +326,6 @@ track_offset = 200.0
 length = 20.0
 width = 30.0
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostPad3" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1428425963]
@@ -339,9 +334,6 @@ track_offset = 250.0
 length = 20.0
 width = 30.0
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostPad4" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=301083056]
@@ -350,9 +342,6 @@ track_offset = 450.0
 length = 20.0
 width = 30.0
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostPad5" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1244121497]
@@ -361,9 +350,6 @@ track_offset = 800.0
 length = 20.0
 width = 30.0
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_BoostRamp" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=477356120]
@@ -374,9 +360,6 @@ length = 40.0
 width = 18.0
 lateral_offset = -8.0
 ramp_height = 10.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_JumpRamp2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1132737128]
@@ -386,9 +369,6 @@ track_offset = 350.0
 length = 120.0
 lateral_offset = -15.0
 ramp_height = 8.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 element_material = ExtResource("13_mat_r")
 
 [node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=2078087229]
@@ -396,9 +376,6 @@ script = ExtResource("11_teb")
 element_type = 3
 track_offset = 100.0
 height_offset = 2.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 item_pools = Array[ExtResource("6_j4yn2")]([SubResource("Resource_3k0sj")])
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
@@ -431,11 +408,8 @@ element_type = 7
 length = 1150.0
 lateral_offset = -15.0
 height_offset = -15.0
-bank_angle = -50.0
+bank_angle = 50.0
 bank_direction = -1
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 bank_wall_height = 0.0
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
@@ -445,9 +419,6 @@ track_offset = 700.0
 length = 20.0
 height_offset = 0.1
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D2" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=1261707682]
@@ -456,9 +427,6 @@ track_offset = 500.0
 length = 20.0
 height_offset = 0.1
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D3" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=757685894]
@@ -467,9 +435,6 @@ track_offset = 300.0
 length = 20.0
 height_offset = 0.1
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D4" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=720366237]
@@ -478,9 +443,6 @@ track_offset = 900.0
 length = 20.0
 height_offset = 0.1
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D5" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=1449558996]
@@ -489,9 +451,6 @@ track_offset = 1100.0
 length = 20.0
 height_offset = 0.1
 boost_power = 50.0
-bank_subdivisions = null
-bank_trick_enabled = null
-bank_trick_force = null
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="Road_Ramp" type="Node3D" parent="Geometry" unique_id=166086970]
