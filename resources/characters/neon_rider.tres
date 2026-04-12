@@ -12,6 +12,6 @@ stats = {
 "acceleration": 35.0,
 "handling": 3.5,
 "top_speed": 38.0,
-"traction": 1.0,
+"traction": 3.0,
 "weight": 30.0
 }

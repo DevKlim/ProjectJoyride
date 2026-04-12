@@ -4,7 +4,7 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform float curvature : hint_range(0.0, 10.0) = 10.0;
 uniform float vignette_multiplier : hint_range(0.0, 5.0) = 0.5;
 uniform float scanline_intensity : hint_range(0.0, 1.0) = 0.3;
-uniform float bloom_intensity : hint_range(0.0, 1.0) = 0.4;
+uniform float bloom_intensity : hint_range(0.0, 1.0) = 0.6;
 uniform float blur_amount : hint_range(0.0, 5.0) = 2.5;
 
 uniform bool use_color_snapping = true;

@@ -31,6 +31,9 @@ class_name TrackSegmentResource
 		is_wall_ride = v
 		emit_changed()
 
+@export_group("Physics Modifiers")
+@export var physics_modifiers: Dictionary = {}
+
 @export_group("Face Toggles")
 @export var generate_front_face: bool = false
 @export var generate_back_face: bool = false
@@ -44,4 +47,3 @@ class_name TrackSegmentResource
 
 func _init() -> void:
 	emit_changed()
-

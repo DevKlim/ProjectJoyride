@@ -180,16 +180,18 @@ func _get_absolute_transform_at_offset(abs_offset: float) -> Transform3D:
 				var out_dist = actual_length - dist_in
 				current_angle = lerp(0.0, parent_element.bank_angle, out_dist / max(0.1, parent_element.bank_transition_length))
 				
-			var dir_sign = float(parent_element.bank_direction)
-			var bank_rad = deg_to_rad(current_angle * dir_sign)
-			
 			var current_w = parent_element.width
 			if parent_element.match_track_width and parent_track.has_method("get_track_width_at_offset"):
 				current_w = parent_track.get_track_width_at_offset(abs_offset) * parent_element.width_ratio
 				
-			var road_vec = Vector3(current_w * dir_sign, 0, 0).rotated(Vector3.FORWARD, bank_rad)
-			var center_local = Vector3.ZERO
+			var dir_sign = float(parent_element.bank_direction)
 			
+			# Ensure geometrically identical recreation of Banked Road slope
+			var max_y = current_w * sin(deg_to_rad(current_angle))
+			var max_x = current_w * cos(deg_to_rad(current_angle))
+			var road_vec = Vector3(max_x * dir_sign, max_y, 0)
+			
+			var center_local = Vector3.ZERO
 			if parent_element.bank_direction == BankDir.RIGHT:
 				var left_local = Vector3(parent_element.lateral_offset, parent_element.height_offset, 0)
 				center_local = left_local + (road_vec * 0.5)
@@ -201,7 +203,8 @@ func _get_absolute_transform_at_offset(abs_offset: float) -> Transform3D:
 			trans.origin += trans.basis.y * center_local.y
 			trans.origin += trans.basis.z * center_local.z
 			
-			trans.basis = trans.basis.rotated(trans.basis.z.normalized(), -bank_rad)
+			var bank_rad = deg_to_rad(current_angle * dir_sign)
+			trans.basis = trans.basis.rotated(trans.basis.z.normalized(), bank_rad)
 		else:
 			trans.origin += trans.basis.x * parent_element.lateral_offset
 			trans.origin += trans.basis.y * parent_element.height_offset
@@ -355,24 +358,19 @@ func _rebuild() -> void:
 				
 			if st_boost:
 				var b_w = boost_pad_size.x
-				var local_center = current_w * 0.5
-				var local_b_left = local_center - b_w * 0.5
-				var local_b_right = local_center + b_w * 0.5
+				var ratio_start = clamp(0.5 - (b_w / current_w * 0.5), 0.0, 1.0)
+				var ratio_end = clamp(0.5 + (b_w / current_w * 0.5), 0.0, 1.0)
 				
-				var b_left_pos: Vector3
-				var b_right_pos: Vector3
+				var pos_l = left_local.lerp(right_local, ratio_start)
+				var pos_r = left_local.lerp(right_local, ratio_end)
 				
-				if bank_direction == BankDir.RIGHT:
-					var vec_l = Vector3(local_b_left, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(current_angle))
-					var vec_r = Vector3(local_b_right, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(current_angle))
-					b_left_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_l)
-					b_right_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_r)
-				else:
-					var vec_l = Vector3(-local_b_right, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(-current_angle))
-					var vec_r = Vector3(-local_b_left, 0, 0).rotated(Vector3.FORWARD, deg_to_rad(-current_angle))
-					b_left_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_l)
-					b_right_pos = trans * (Vector3(lateral_offset, height_offset + 0.15, 0) + vec_r)
-					
+				var dir_to_right = (right_local - left_local).normalized()
+				var surface_norm = Vector3(0, 0, -1).cross(dir_to_right).normalized()
+				if surface_norm.y < 0: surface_norm = -surface_norm
+				
+				var b_left_pos = trans * (pos_l + surface_norm * 0.15)
+				var b_right_pos = trans * (pos_r + surface_norm * 0.15)
+				
 				st_boost.set_uv(Vector2(0, v_coord))
 				st_boost.add_vertex(b_left_pos)
 				st_boost.set_uv(Vector2(1, v_coord))
@@ -754,4 +752,3 @@ func _rebuild() -> void:
 			inst.set("constant_lift", wind_constant_lift)
 			inst.scale = Vector3(wind_radius / 12.0, wind_height / 60.0, wind_radius / 12.0)
 			_container.add_child(inst)
-

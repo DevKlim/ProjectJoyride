@@ -408,6 +408,8 @@ func _rebuild_meshes() -> void:
 			if multi_road and seg < segments.size() and segments[seg] != null:
 				if segments[seg].is_wall_ride: seg_wall = true
 				if segments[seg].is_anti_gravity: seg_ag = true
+				if typeof(segments[seg].physics_modifiers) == TYPE_DICTIONARY and not segments[seg].physics_modifiers.is_empty():
+					static_body.set_meta("physics_modifiers", segments[seg].physics_modifiers)
 				
 			if seg_wall: static_body.add_to_group("wall_ride")
 			if seg_ag: static_body.add_to_group("anti_gravity")
@@ -452,4 +454,3 @@ func _create_branch(point_idx: int) -> void:
 	new_node.curve = c
 	new_node.generate_front_face = false 
 	print("Auto-branched generated at point index: ", point_idx)
-

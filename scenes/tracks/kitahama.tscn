@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cgqcfywjtm2fw" path="res://scripts/resources/track_profile_resource.gd" id="8_l81el"]
 [ext_resource type="Script" uid="uid://w7a2wesus34b" path="res://scripts/components/track/wind_gust_component.gd" id="8_wind"]
 [ext_resource type="Script" uid="uid://dwdb0vh81c0og" path="res://scripts/components/track/cannon_component.gd" id="9_cannon"]
+[ext_resource type="Material" uid="uid://ddpfhvxqf1c3d" path="res://resources/materials/road1.tres" id="10_csi5x"]
 [ext_resource type="Script" uid="uid://dsvb3u3lxfaoq" path="res://scripts/components/track/track_builder_3d.gd" id="10_trackb"]
 [ext_resource type="Script" uid="uid://bfycrjjymm033" path="res://scripts/components/track/track_element_builder_3d.gd" id="11_teb"]
 [ext_resource type="Material" uid="uid://dbx5g7t8w4b" path="res://resources/materials/track_element_boost.tres" id="12_mat_b"]
@@ -37,6 +38,8 @@ tonemap_mode = 2
 glow_bloom = 0.3
 fog_light_color = Color(0.1, 0.05, 0.2, 1)
 fog_density = 0.002
+
+[sub_resource type="Curve3D" id="Curve3D_l81el"]
 
 [sub_resource type="Curve3D" id="Curve3D_u5dtt"]
 _data = {
@@ -108,7 +111,7 @@ metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
 
 [sub_resource type="Curve3D" id="Curve3D_4boo1"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -156.50365, -101.28419, -1588.5292, 8.002197, 1.6923828, 93.54883, -8.002197, -1.6923828, -93.54883, -112.759705, -95.05371, -1986.1677, 32.235138, -19.111206, 72.43555, -32.235138, 19.111206, -72.43555, -167.90962, -81.110016, -2525.986, -64.10477, -1.8444672, 30.636475, 64.10477, 1.8444672, -30.636475, -202.11519, -20.32399, -2723.9392, -6.043991, 24.599625, -53.768555, 6.043991, -24.599625, 53.768555, -5.389847, -61.105072, -2538.357, -25.891815, -1.4201736, -87.44678, 25.891815, 1.4201736, 87.44678, 69.38255, -76.855606, -2223.504, -13.72345, -3.1719818, -48.63147, 13.72345, 3.1719818, 48.63147, 183.51297, -69.436905, -1807.3306, 0, 0, 0, 0, 0, 0, 89.836296, -77.52702, -1303.1998, 0, 0, 0, 0, 0, 0, 11.204876, -80.62256, -939.9009, 0, 0, 0, 0, 0, 0, -28.4457, -77.964325, -737.06195, -56.977966, 5.5038147, -151.70914, 56.977966, -5.5038147, 151.70914, -63.506668, -75.73303, -217.04169, 0, 0, 0, 0, 0, 0, 466.00555, -76.16528, -63.532593),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -156.50365, -101.28419, -1588.5292, 8.002197, 1.6923828, 93.54883, -8.002197, -1.6923828, -93.54883, -112.759705, -95.05371, -1986.1677, 32.235138, -19.111206, 72.43555, -32.235138, 19.111206, -72.43555, -167.90962, -81.110016, -2525.986, -152.3885, -17.874435, 71.4397, 152.3885, 17.874435, -71.4397, -200.2692, -17.904816, -2725.8088, -6.043991, 24.599625, -53.768555, 6.043991, -24.599625, 53.768555, -5.389847, -61.105072, -2538.357, -25.891815, -1.4201736, -87.44678, 25.891815, 1.4201736, 87.44678, 69.38255, -76.855606, -2223.504, -13.72345, -3.1719818, -48.63147, 13.72345, 3.1719818, 48.63147, 183.51297, -69.436905, -1807.3306, 0, 0, 0, 0, 0, 0, 89.836296, -77.52702, -1303.1998, 0, 0, 0, 0, 0, 0, 11.204876, -80.62256, -939.9009, 0, 0, 0, 0, 0, 0, -28.4457, -77.964325, -737.06195, -56.977966, 5.5038147, -151.70914, 56.977966, -5.5038147, 151.70914, -63.506668, -75.73303, -217.04169, 0, 0, 0, 0, 0, 0, 466.00555, -76.16528, -63.532593),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 12
@@ -150,8 +153,17 @@ script = ExtResource("7_3k0sj")
 override_profile = SubResource("Resource_35srv")
 metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
 
+[sub_resource type="Resource" id="Resource_h10db"]
+script = ExtResource("8_l81el")
+wall_height = 20.0
+wall_thickness = 60.0
+wall_angle = 10.0
+track_depth = 50.0
+metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
+
 [sub_resource type="Resource" id="Resource_nw5dq"]
 script = ExtResource("7_3k0sj")
+override_profile = SubResource("Resource_h10db")
 metadata/_custom_type_script = "uid://d1omi3y2q3t3i"
 
 [sub_resource type="Resource" id="Resource_g17j0"]
@@ -159,8 +171,7 @@ script = ExtResource("8_l81el")
 wall_height = 20.0
 wall_thickness = 60.0
 wall_angle = 10.0
-track_depth = 10.0
-is_right_wall_open = true
+track_depth = 50.0
 metadata/_custom_type_script = "uid://cgqcfywjtm2fw"
 
 [sub_resource type="Resource" id="Resource_v706l"]
@@ -235,6 +246,11 @@ emission_enabled = true
 emission = Color(0.4, 0.1, 0.8, 1)
 emission_energy_multiplier = 0.5
 
+[sub_resource type="BoxMesh" id="BoxMesh_4boo1"]
+material = ExtResource("10_csi5x")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ao1p7"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_trigger"]
 size = Vector3(20, 5, 20)
 
@@ -304,6 +320,12 @@ environment = SubResource("Environment_osaka")
 [node name="Road_Main" type="Node3D" parent="Geometry" unique_id=445204850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
 
+[node name="Path3" type="Path3D" parent="Geometry/Road_Main" unique_id=446657981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.881805, 0)
+curve = SubResource("Curve3D_l81el")
+script = ExtResource("10_trackb")
+metadata/_custom_type_script = "uid://dsvb3u3lxfaoq"
+
 [node name="Path1" type="Path3D" parent="Geometry/Road_Main" unique_id=992572885]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 628.8994, -10.000023, 1688.9622)
 curve = SubResource("Curve3D_u5dtt")
@@ -360,6 +382,7 @@ length = 40.0
 width = 18.0
 lateral_offset = -8.0
 ramp_height = 10.0
+boost_pad_size = Vector2(8, 8)
 element_material = ExtResource("12_mat_b")
 
 [node name="TrackElement_JumpRamp2" type="Node3D" parent="Geometry/Road_Main/Path1" unique_id=1132737128]
@@ -397,6 +420,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.881805, 0)
 curve = SubResource("Curve3D_4boo1")
 script = ExtResource("10_trackb")
 profile = SubResource("Resource_csi5x")
+road_material = ExtResource("10_csi5x")
 multi_road = true
 segments = Array[ExtResource("7_3k0sj")]([SubResource("Resource_2umke"), SubResource("Resource_g48in"), SubResource("Resource_nw5dq"), SubResource("Resource_v706l"), SubResource("Resource_s1li6"), SubResource("Resource_m2ato"), SubResource("Resource_4r0p3"), SubResource("Resource_wwlb7"), SubResource("Resource_pmtbr"), SubResource("Resource_0uag7")])
 metadata/_custom_type_script = "uid://dsvb3u3lxfaoq"
@@ -408,47 +432,50 @@ element_type = 7
 length = 1150.0
 lateral_offset = -15.0
 height_offset = -15.0
-bank_angle = 50.0
+bank_angle = 40.0
 bank_direction = -1
 bank_wall_height = 0.0
+bank_trick_force = 40.0
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=507223397]
 script = ExtResource("11_teb")
-track_offset = 700.0
-length = 20.0
+track_offset = 600.0
+length = 30.0
 height_offset = 0.1
 boost_power = 50.0
+bank_angle = -30.0
+bank_direction = -1
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D2" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=1261707682]
 script = ExtResource("11_teb")
 track_offset = 500.0
-length = 20.0
+length = 30.0
 height_offset = 0.1
 boost_power = 50.0
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D3" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=757685894]
 script = ExtResource("11_teb")
-track_offset = 300.0
-length = 20.0
+track_offset = 400.0
+length = 30.0
 height_offset = 0.1
 boost_power = 50.0
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D4" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=720366237]
 script = ExtResource("11_teb")
-track_offset = 900.0
-length = 20.0
+track_offset = 300.0
+length = 30.0
 height_offset = 0.1
 boost_power = 50.0
 metadata/_custom_type_script = "uid://bfycrjjymm033"
 
 [node name="TrackElementBuilder3D5" type="Node3D" parent="Geometry/Road_Main/Path2_5/TrackElementBuilder3D" unique_id=1449558996]
 script = ExtResource("11_teb")
-track_offset = 1100.0
-length = 20.0
+track_offset = 700.0
+length = 30.0
 height_offset = 0.1
 boost_power = 50.0
 metadata/_custom_type_script = "uid://bfycrjjymm033"
@@ -479,6 +506,17 @@ transform = Transform3D(0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0, 1, 262.68536,
 use_collision = true
 size = Vector3(40, 2, 280)
 material = SubResource("StandardMaterial3D_wallride")
+
+[node name="Environment" type="Node3D" parent="Geometry" unique_id=1538364058]
+
+[node name="Wall1" type="Node3D" parent="Geometry/Environment" unique_id=154186972]
+transform = Transform3D(115.07799, 4.0574685e-07, 56.692608, 3.368965, 49.754173, -18.995907, -33.848316, 4.9520955, 190.85367, -103.08636, 48.218155, -2595.0232)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Geometry/Environment/Wall1" unique_id=439378940]
+mesh = SubResource("BoxMesh_4boo1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/Environment/Wall1" unique_id=620370602]
+shape = SubResource("BoxShape3D_ao1p7")
 
 [node name="Scenery" type="Node3D" parent="Geometry" unique_id=477151097]
 

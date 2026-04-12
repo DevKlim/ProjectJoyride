@@ -44,6 +44,12 @@ var visual_hop_offset: float = 0.0
 var hop_tween: Tween
 
 var wall_bump_cooldown: float = 0.0
+var wall_climb_cooldown: float = 0.0
+var is_wall_climbing: bool = false
+var wall_climb_normal: Vector3 = Vector3.ZERO
+
+var base_track_modifiers: Dictionary = {}
+var active_segment_modifiers: Dictionary = {}
 
 var is_in_cannon: bool = false
 var cannon_path: Path3D = null
@@ -60,7 +66,7 @@ var cannon_entry_speed: float = 0.0
 
 func _ready() -> void:
 	if kart_body:
-		kart_body.floor_max_angle = deg_to_rad(85.0)
+		kart_body.floor_max_angle = deg_to_rad(75.0)
 		kart_body.floor_snap_length = 0.5
 		
 		ground_ray = RayCast3D.new()
@@ -81,12 +87,22 @@ func _do_visual_hop() -> void:
 	hop_tween.tween_property(self, "visual_hop_offset", 0.8, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	hop_tween.tween_property(self, "visual_hop_offset", 0.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 
+func _get_modified_stat(stat_name: String, base_value: float) -> float:
+	var mult = 1.0
+	if base_track_modifiers.has(stat_name):
+		mult *= float(base_track_modifiers[stat_name])
+	if active_segment_modifiers.has(stat_name):
+		mult *= float(active_segment_modifiers[stat_name])
+	return base_value * mult
+
 func _physics_process(delta: float) -> void:
 	if not kart_body or not input or not stats: return
 	if not ground_ray or not ground_ray.is_inside_tree(): return
 	
 	if wall_bump_cooldown > 0:
 		wall_bump_cooldown -= delta
+	if wall_climb_cooldown > 0:
+		wall_climb_cooldown -= delta
 		
 	if not on_ramp:
 		time_since_ramp += delta
@@ -101,7 +117,7 @@ func _physics_process(delta: float) -> void:
 			spin_angle = 0.0
 	elif trick_spin_timer > 0:
 		trick_spin_timer -= delta
-		spin_angle += 12.56 * delta # approximately 2 full rotations
+		spin_angle += 12.56 * delta
 		if trick_spin_timer <= 0:
 			spin_angle = 0.0
 	
@@ -163,11 +179,21 @@ func _physics_process(delta: float) -> void:
 	if hazard_time > 0:
 		hazard_time -= delta
 		if hazard_time <= 0: hazard_penalty = 1.0
-		
+
+	var mod_top_speed = _get_modified_stat("speed", stats.top_speed)
+	var mod_accel = _get_modified_stat("acceleration", stats.acceleration)
+	var mod_handling = _get_modified_stat("handling", stats.handling)
+	var mod_weight = _get_modified_stat("weight", stats.weight)
+	var mod_traction = _get_modified_stat("traction", stats.traction)
+
+	var max_grip_angle = 60.0 + (mod_traction * 5.0)
+
 	is_grounded = false
 	var on_wall_ride = false
 	var on_anti_gravity = false
 	var track_normal = Vector3.UP
+	
+	active_segment_modifiers.clear()
 	
 	var current_down = -surface_normal
 	ground_ray.target_position = current_down * 2.0
@@ -179,11 +205,13 @@ func _physics_process(delta: float) -> void:
 			var n = ground_ray.get_collision_normal()
 			var angle = rad_to_deg(acos(n.dot(Vector3.UP)))
 			
-			if col.is_in_group("anti_gravity") or col.is_in_group("wall_ride") or angle <= 70.0:
+			if col.is_in_group("anti_gravity") or col.is_in_group("wall_ride") or angle <= max_grip_angle:
 				is_grounded = true
 				track_normal = n
 				if col.is_in_group("wall_ride"): on_wall_ride = true
 				if col.is_in_group("anti_gravity"): on_anti_gravity = true
+				if col.has_meta("physics_modifiers"):
+					active_segment_modifiers = col.get_meta("physics_modifiers")
 
 	if not is_grounded and kart_body.get_slide_collision_count() > 0:
 		for i in kart_body.get_slide_collision_count():
@@ -193,11 +221,13 @@ func _physics_process(delta: float) -> void:
 				var n = col.get_normal()
 				var angle = rad_to_deg(acos(n.dot(Vector3.UP)))
 				
-				if collider.is_in_group("anti_gravity") or collider.is_in_group("wall_ride") or angle <= 70.0:
+				if collider.is_in_group("anti_gravity") or collider.is_in_group("wall_ride") or angle <= max_grip_angle:
 					is_grounded = true
 					track_normal = n
 					if collider.is_in_group("wall_ride"): on_wall_ride = true
 					if collider.is_in_group("anti_gravity"): on_anti_gravity = true
+					if collider.has_meta("physics_modifiers"):
+						active_segment_modifiers = collider.get_meta("physics_modifiers")
 					break
 
 	var target_up = track_normal if is_grounded else Vector3.UP
@@ -220,36 +250,59 @@ func _physics_process(delta: float) -> void:
 			perfect_trick = false
 			
 		air_time = 0.0
+		is_wall_climbing = false
 	else:
 		air_time += delta
 
 	var slip_velocity = Vector3.ZERO
 	var slope_angle = rad_to_deg(acos(track_normal.dot(Vector3.UP)))
+	var forward_dir = -kart_body.global_transform.basis.z
 
 	if is_grounded:
 		y_velocity = -5.0
 		
 		if slope_angle > 5.0 and not on_anti_gravity:
-			var downhill_dir = (Vector3.DOWN - Vector3.DOWN.project(track_normal)).normalized()
-			var grip = clamp(stats.traction, 0.1, 5.0)
-			var slide_factor = max(0.0, (1.0 - (grip / 5.0))) * (stats.weight / 100.0)
+			var downhill_dir = (Vector3.DOWN - Vector3.DOWN.project(track_normal))
+			if downhill_dir.length_squared() > 0.001: downhill_dir = downhill_dir.normalized()
+			else: downhill_dir = -kart_body.global_transform.basis.z 
 			
-			if on_wall_ride:
-				if abs(current_speed) > 10.0:
-					y_velocity = -25.0
-					slip_velocity = downhill_dir * (slide_factor * 15.0)
-				else:
-					slip_velocity = downhill_dir * 30.0
+			var grip = clamp(mod_traction, 0.1, 5.0)
+			
+			# Base slope limit where you completely lose grip and slide backwards
+			var grip_limit = 25.0 + (grip * 5.0)
+			
+			if slope_angle > grip_limit and not on_ramp and time_since_ramp > 0.2:
+				# Insufficient Grip: Reverse the player down the slope
+				var steepness_penalty = slope_angle - grip_limit
+				var slide_speed = (steepness_penalty * 2.5) * (5.0 / grip) * (mod_weight / 30.0)
+				slide_speed = clamp(slide_speed, 15.0, 90.0)
+				
+				slip_velocity = downhill_dir * slide_speed
+				
+				# Drain uphill progress rapidly
+				var uphill_dot = forward_dir.dot(-downhill_dir)
+				if uphill_dot > 0.0:
+					current_speed = move_toward(current_speed, 0.0, slide_speed * delta * 1.5)
 			else:
-				slip_velocity = downhill_dir * (slide_factor * 8.0)
+				# Normal minor grip slip for banked roads/curves within limit
+				var slide_factor = max(0.0, (1.0 - (grip / 5.0))) * (mod_weight / 100.0)
+				
+				if on_wall_ride:
+					if abs(current_speed) > 10.0:
+						y_velocity = -25.0
+						slip_velocity = downhill_dir * (slide_factor * 15.0)
+					else:
+						slip_velocity = downhill_dir * 30.0
+				else:
+					slip_velocity = downhill_dir * (slide_factor * 8.0)
 	else:
 		y_velocity -= gravity * delta
 
-	var target_speed = input.accelerate * stats.top_speed * hazard_penalty
-	var current_accel = stats.acceleration
+	var target_speed = input.accelerate * mod_top_speed * hazard_penalty
+	var current_accel = mod_accel
 	
 	if boost_time > 0:
-		target_speed = (stats.top_speed + boost_power) * hazard_penalty
+		target_speed = (mod_top_speed + boost_power) * hazard_penalty
 		current_accel *= 3.0 
 		boost_time -= delta
 		if boost_time <= 0: boost_power = 0.0
@@ -257,7 +310,7 @@ func _physics_process(delta: float) -> void:
 	current_speed = move_toward(current_speed, target_speed, current_accel * delta)
 	
 	var turn = input.steer
-	var turn_speed = stats.handling
+	var turn_speed = mod_handling
 	var speed_ratio = clamp(abs(current_speed) / 10.0, 0.0, 1.0)
 	
 	if input.drift_just_pressed:
@@ -292,7 +345,7 @@ func _physics_process(delta: float) -> void:
 				drift_dir = sign(turn)
 				
 			if drift_dir != 0:
-				turn_speed = stats.handling * 1.5
+				turn_speed = mod_handling * 1.5
 				turn = clamp((drift_dir * 0.6) + (input.steer * 0.8), -1.0, 1.0)
 				if sign(input.steer) == drift_dir and input.steer != 0:
 					drift_time += 2.0 * delta
@@ -311,7 +364,6 @@ func _physics_process(delta: float) -> void:
 			
 		kart_body.rotate_object_local(Vector3.UP, turn * turn_speed * speed_ratio * delta)
 		
-	var forward_dir = -kart_body.global_transform.basis.z
 	forward_velocity = forward_dir * current_speed
 	kart_body.velocity = forward_velocity + (surface_normal * y_velocity) + slip_velocity
 	kart_body.move_and_slide()
@@ -319,34 +371,88 @@ func _physics_process(delta: float) -> void:
 	var hit_wall = false
 	var wall_normal = Vector3.ZERO
 	var wall_dot = 0.0
+	var hit_wall_angle = 0.0
 	
-	if is_grounded:
-		for i in kart_body.get_slide_collision_count():
-			var col = kart_body.get_slide_collision(i)
-			var n = col.get_normal()
-			var angle = rad_to_deg(acos(n.dot(surface_normal)))
+	for i in kart_body.get_slide_collision_count():
+		var col = kart_body.get_slide_collision(i)
+		var n = col.get_normal()
+		var angle = rad_to_deg(acos(n.dot(surface_normal)))
+		
+		# Recognize anything steeper than local grip tolerance as an obstruction/wall
+		if angle > max_grip_angle and angle < 135.0:
+			var dot = forward_dir.dot(n)
+			if dot < wall_dot:
+				hit_wall = true
+				wall_normal = n
+				wall_dot = dot
+				hit_wall_angle = rad_to_deg(acos(n.dot(Vector3.UP)))
 			
-			if angle > 70.0 and angle < 110.0:
-				var dot = forward_dir.dot(n)
-				if dot < wall_dot:
-					hit_wall = true
-					wall_normal = n
-					wall_dot = dot
+	if hit_wall and abs(current_speed) > 2.0:
+		var flat_wall_norm = Vector3(wall_normal.x, 0, wall_normal.z)
+		if flat_wall_norm.length_squared() > 0.001:
+			flat_wall_norm = flat_wall_norm.normalized()
+		else:
+			flat_wall_norm = kart_body.global_transform.basis.x
 			
-	if hit_wall and current_speed > 5.0:
-		if wall_dot < -0.1:
-			if wall_bump_cooldown <= 0.0:
-				current_speed *= clamp(1.0 - (abs(wall_dot) * 0.7), 0.4, 0.95)
-				is_drifting = false
-				drift_time = 0.0
-				wall_bump_cooldown = 0.3
+		var projected_fwd = (forward_dir - flat_wall_norm * forward_dir.dot(flat_wall_norm)).normalized()
+		
+		# Graceful climbing translation to prevent 90-degree slope softlocks
+		var is_steep_approach = (surface_normal.y < 0.95 or on_ramp or hit_wall_angle <= 85.0)
+		
+		if is_steep_approach and wall_dot < -0.5 and wall_climb_cooldown <= 0.0 and current_speed > 10.0:
+			var climb_force = clamp(current_speed * (0.6 + (mod_traction * 0.2)), 15.0, 45.0)
+			y_velocity = climb_force
+			current_speed *= 0.1
+			is_grounded = false
+			is_wall_climbing = true
+			wall_climb_normal = wall_normal
+			wall_climb_cooldown = 1.0
+			wall_bump_cooldown = 0.5
+			
+			kart_body.global_position += flat_wall_norm * 0.2
+			_do_visual_hop()
+			
+			has_tricked = true
+			perfect_trick = true
+			trick_spin_timer = 0.5
+			var animator = $"../CharacterAnimatorComponent"
+			if animator: animator.play_trick()
+			elif anim_player:
+				anim_player.stop()
+				anim_player.play("trick_spin")
+			
+		elif wall_dot < -0.6 and wall_bump_cooldown <= 0.0:
+			# Head-On Hit: Bounce back completely
+			current_speed = -current_speed * 0.5
+			is_drifting = false
+			drift_time = 0.0
+			wall_bump_cooldown = 0.3
+			
+			# Physically detach from the wall to prevent sliding up the wedge
+			kart_body.global_position += flat_wall_norm * 0.5
+			_do_visual_hop()
+			
+		elif wall_bump_cooldown <= 0.0:
+			# Grazing Hit: Steer parallel to the wall
+			current_speed *= 1.0 - (delta * 1.5)
+			
+			# Push slightly away to detach from wedge physics so gravity pulls them down instantly
+			kart_body.global_position += flat_wall_norm * (abs(current_speed) * delta * 0.2)
+			
+			var can_steer = projected_fwd.length_squared() > 0.01
+			if can_steer:
+				var new_z = -projected_fwd
+				var new_x = surface_normal.cross(new_z).normalized()
+				if new_x.length_squared() < 0.001: 
+					new_x = kart_body.global_transform.basis.x
+				var new_y = new_z.cross(new_x).normalized()
 				
-				var push_velocity = wall_normal * (current_speed * abs(wall_dot))
-				kart_body.velocity += push_velocity
+				var new_basis = Basis(new_x, new_y, new_z).orthonormalized()
 				
-				_do_visual_hop()
-			else:
-				current_speed -= current_speed * 1.5 * delta
+				if new_basis.determinant() > 0.0:
+					var current_basis_ortho = kart_body.global_transform.basis.orthonormalized()
+					var cached_scale = kart_body.scale
+					kart_body.global_transform.basis = current_basis_ortho.slerp(new_basis, 15.0 * delta).scaled(cached_scale)
 
 	if is_grounded and not was_grounded and air_time > 0.15:
 		if vfx and vfx.has_method("play_landing_vfx"):
@@ -359,11 +465,16 @@ func _physics_process(delta: float) -> void:
 		var visual_scale = visual_model.scale
 		
 		if not is_grounded:
-			var physical_pitch = visual_basis.z.y
-			if abs(physical_pitch) < 0.3:
-				var pitch = clamp(kart_body.velocity.y / -40.0, 0.0, 0.4)
-				if pitch > 0.01:
-					visual_basis = visual_basis.rotated(visual_basis.x, -pitch)
+			if is_wall_climbing:
+				var pitch_factor = clamp(kart_body.velocity.y / 25.0, -1.0, 1.0)
+				var pitch_angle = pitch_factor * (PI / 2.2) 
+				visual_basis = visual_basis.rotated(visual_basis.x, pitch_angle)
+			else:
+				var physical_pitch = visual_basis.z.y
+				if abs(physical_pitch) < 0.3:
+					var pitch = clamp(kart_body.velocity.y / -40.0, 0.0, 0.4)
+					if pitch > 0.01:
+						visual_basis = visual_basis.rotated(visual_basis.x, -pitch)
 		
 		if wheels_component:
 			wheels_component.global_transform.basis = visual_basis
@@ -436,14 +547,11 @@ func apply_bank_trick(force: float) -> void:
 	perfect_trick = true
 	trick_spin_timer = 0.5
 	
-	# Push them inward using the wall's normal
-	# Strip out Y so we don't launch them artificially higher, just laterally inward
 	var inward_dir = surface_normal
 	inward_dir.y = 0
 	if inward_dir.length_squared() > 0.01:
 		inward_dir = inward_dir.normalized()
 		
-	# Apply lateral kick
 	kart_body.velocity += inward_dir * (force * 0.8)
 	
 	var animator = $"../CharacterAnimatorComponent"
@@ -460,4 +568,3 @@ func _align_with_y(basis: Basis, new_y: Vector3) -> Basis:
 	x = x.normalized()
 	var z = x.cross(new_y).normalized()
 	return Basis(x, new_y, z).orthonormalized()
-

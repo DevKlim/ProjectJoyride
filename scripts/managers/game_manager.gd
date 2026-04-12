@@ -24,10 +24,14 @@ func _initialize_game() -> void:
 	# Display track name dynamically
 	var final_track_name = starting_track_id.capitalize()
 	var track_res_path = "res://resources/tracks/" + starting_track_id + ".tres"
+	var base_track_modifiers = {}
+	
 	if ResourceLoader.exists(track_res_path):
 		var track_res = load(track_res_path) as TrackResource
 		if track_res:
 			final_track_name = track_res.track_name
+			if "physics_modifiers" in track_res:
+				base_track_modifiers = track_res.physics_modifiers
 			
 	if starting_track_id == "kitahama" and final_track_name == "Kitahama":
 		final_track_name = "Kitahama, Osaka Cup"
@@ -37,6 +41,10 @@ func _initialize_game() -> void:
 	var kart_scene = load("res://scenes/kart.tscn") as PackedScene
 	player_kart = kart_scene.instantiate()
 	add_child(player_kart)
+	
+	var phys_comp = player_kart.get_node_or_null("KartPhysicsComponent")
+	if phys_comp:
+		phys_comp.base_track_modifiers = base_track_modifiers
 
 	# Setup orientation using the exact starting nodes rotation logic
 	var start_positions = get_tree().get_nodes_in_group("start_position")
@@ -184,4 +192,3 @@ func _on_lap_completed(lap: int, time: float) -> void:
 
 func _on_kart_went_off_track(safe_pos: Vector3, safe_rot: Vector3) -> void:
 	relocation_system.relocate_entity(player_kart, safe_pos, safe_rot)
-
