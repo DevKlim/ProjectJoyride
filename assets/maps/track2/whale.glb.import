@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://diyjjsyytpnmb"
-path="res://.godot/imported/SM_Cliff_03_Unity.fbx-737fff525b4cef2b31395a637ecbea03.scn"
+uid="uid://bbu2mk8hurcko"
+path="res://.godot/imported/whale.glb-56478340152ec6b83f46d7ecfc5a4bce.scn"
 
 [deps]
 
-source_file="res://assets/maps/thirdparty_dreamscape/Meshes/Stones/SM_Cliff_03_Unity.fbx"
-dest_files=["res://.godot/imported/SM_Cliff_03_Unity.fbx-737fff525b4cef2b31395a637ecbea03.scn"]
+source_file="res://assets/maps/track2/whale.glb"
+dest_files=["res://.godot/imported/whale.glb-56478340152ec6b83f46d7ecfc5a4bce.scn"]
 
 [params]
 
@@ -30,23 +30,13 @@ meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
 animation/fps=30
-animation/trimming=true
+animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={
-"materials": {
-"Rock": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://assets/maps/thirdparty_dreamscape/Meshes/Stones/SM_Rocks_Details_Five_low.tres",
-"use_external/path": "uid://dduwnhy6gy2b0"
-}
-}
-}
-fbx/importer=0
-fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=1
-fbx/naming_version=2
+_subresources={}
+gltf/naming_version=2
+gltf/embedded_image_handling=1

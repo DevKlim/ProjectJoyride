@@ -1,0 +1,2069 @@
+[gd_scene format=3 uid="uid://b3nn2y30lleyy"]
+
+[ext_resource type="Script" uid="uid://vd67kd5vbrrj" path="res://scripts/components/track/track_builder_3d.gd" id="1_6d8gv"]
+[ext_resource type="Material" uid="uid://by6wmxnls34ic" path="res://resources/materials/road2.tres" id="3_5j5lq"]
+[ext_resource type="PackedScene" uid="uid://cysqtslqdxeby" path="res://scenes/track_elements/wind_gust.tscn" id="4_bn7ov"]
+[ext_resource type="Script" uid="uid://c38gng14420vt" path="res://scripts/resources/track_profile_resource.gd" id="4_yru4j"]
+[ext_resource type="Script" uid="uid://hjubijc1bjpd" path="res://scripts/components/track/track_element_builder_3d.gd" id="5_3j3pq"]
+[ext_resource type="Script" uid="uid://chni3fmk5rfda" path="res://scripts/components/track/road_component.gd" id="6_jphkx"]
+[ext_resource type="PackedScene" uid="uid://cks4kx733s0bo" path="res://assets/maps/thirdparty_dreamscape/Meshes/Stones/SM_Cliff_02_Unity.fbx" id="6_yfh52"]
+[ext_resource type="Script" uid="uid://ps5h3mr82eni" path="res://scripts/components/track/boost_pad_component.gd" id="7_1lhgb"]
+[ext_resource type="PackedScene" uid="uid://diyjjsyytpnmb" path="res://assets/maps/thirdparty_dreamscape/Meshes/Stones/SM_Cliff_03_Unity.fbx" id="7_yru4j"]
+[ext_resource type="PackedScene" uid="uid://c7xoix2ahdcq1" path="res://assets/maps/thirdparty_dreamscape/Meshes/Stones/SM_Cliff_05_Unity.fbx" id="8_3j3pq"]
+[ext_resource type="Script" uid="uid://dhh35te757sit" path="res://scripts/components/track/hazard_component.gd" id="8_5j5lq"]
+[ext_resource type="Script" uid="uid://q32xirl2bdek" path="res://scripts/components/track/wind_gust_component.gd" id="9_eoji0"]
+[ext_resource type="Shader" uid="uid://80xhlr5iplw2" path="res://resources/shaders/water_surface.gdshader" id="9_yru4j"]
+[ext_resource type="Script" uid="uid://dl3i8aylsqern" path="res://scripts/components/track/cannon_component.gd" id="10_p70yn"]
+[ext_resource type="Script" uid="uid://cc3731ts5avfx" path="res://scripts/maps/whale_spawner.gd" id="14_3j3pq"]
+[ext_resource type="PackedScene" uid="uid://c0mnhnjc25iyw" path="res://whale.tscn" id="15_jphkx"]
+[ext_resource type="Script" uid="uid://c8wdt6vc28cdi" path="res://scripts/components/track/start_position_component.gd" id="16_1lhgb"]
+
+[sub_resource type="Curve3D" id="Curve3D_bsw08"]
+_data = {
+"points": PackedVector3Array(0, 0, 5, 0, 0, -5, -636.04205, -96.81803, -2274.8704, 222.41736, 14.457062, 126.555176, -222.41736, -14.457062, -126.555176, -1094.505, -86.85254, -2869.0378, 0, 0, 0, 0, 0, 0, -1530.9911, -41.67221, -2969.9104),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Resource" id="Resource_yfh52"]
+script = ExtResource("4_yru4j")
+road_width = 100.0
+is_left_wall_open = true
+is_right_wall_open = true
+roof_height = 20.0
+metadata/_custom_type_script = "uid://c38gng14420vt"
+
+[sub_resource type="Curve3D" id="Curve3D_8wuda"]
+_data = {
+"points": PackedVector3Array(-26.740967, 42.49823, 1.3072815, 26.740967, -42.49823, -1.3072815, -3667.0854, -406.5349, -317.01532, -120.966064, 5.6202393, -73.407364, 120.966064, -5.6202393, 73.407364, -3402.8154, -462.786, -146.33307, 0, 0, 0, 0, 0, 0, -3136.0422, -424.3572, -142.44641),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Resource" id="Resource_bn7ov"]
+script = ExtResource("4_yru4j")
+road_width = 200.0
+is_left_wall_open = true
+is_right_wall_open = true
+roof_height = 20.0
+metadata/_custom_type_script = "uid://c38gng14420vt"
+
+[sub_resource type="Curve3D" id="Curve3D_6528k"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -613.6147, -88.349525, 55.00891, 0, 0, 0, 0, 0, 0, -636.2678, -86.85254, -1609.1384, 23.932068, -11.620789, 199.09619, -23.932068, 11.620789, -199.09619, -668.8109, -87.02576, -2540.3733, 449.98584, -60.360077, 0.005859375, -449.98584, 60.360077, -0.005859375, -1568.9908, 10.884277, -3657.198, 269.57227, -20.65152, -71.78955, -269.57227, 20.65152, 71.78955, -3111.054, 75.41583, -3601.783, 38.949707, 38.196655, -316.72412, -38.949707, -38.196655, 316.72412, -3507.3665, 49.052856, -2395.3572, -127.42627, -39.53546, -698.0166, 127.42627, 39.53546, 698.0166, -3647.3499, -68.84326, -317.42923, -950.12256, -52.51883, -566.2412, 0, 0, 0, -3289.8386, 88.563995, 1544.6338, -872.84924, 100.864044, 585.5565, 872.84924, -100.864044, -585.5565, -1451.3994, 74.41275, 1292.2926, 0, 0, 0, 0, 0, 0, -597.0703, -35.194656, 183.13843),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
+
+[sub_resource type="Resource" id="Resource_8wuda"]
+script = ExtResource("4_yru4j")
+road_width = 100.0
+is_left_wall_open = true
+roof_height = 20.0
+metadata/_custom_type_script = "uid://c38gng14420vt"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygy6v"]
+albedo_color = Color(0.3382229, 0.33830392, 0.39501858, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkkl1"]
+albedo_color = Color(0.2, 0.1, 0.4, 1)
+emission_enabled = true
+emission = Color(0.4, 0.1, 0.8, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3j3pq"]
+render_priority = 0
+shader = ExtResource("9_yru4j")
+shader_parameter/max_depth = 10.000000149012
+shader_parameter/water_level = 1.490119991842676e-07
+shader_parameter/underwater_fog_color = Color(0, 0.49672604, 0.76334345, 1)
+shader_parameter/fade_start_depth = 1.30000001937156
+shader_parameter/sea_height = 1.2870000611325
+shader_parameter/sea_choppy = 1.962000093195
+shader_parameter/sea_speed = 1.3390000636025
+shader_parameter/sea_freq = 0.098000004655
+shader_parameter/ITER_GEOMETRY = 5
+shader_parameter/ITER_FRAGMENT = 1
+shader_parameter/refraction_strength = 1.0
+shader_parameter/refraction_distance_fade = 0.0
+shader_parameter/normal_epsilon = 0.01
+shader_parameter/normal_smoothness_dist = 270.430012845425
+shader_parameter/base_tint_color = Color(0.55857694, 0.9783314, 1, 1)
+shader_parameter/deep_color = Color(0, 0.6782382, 0.58388436, 1)
+shader_parameter/water_absorption = Color(0.3, 0.06, 0.02, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.2310000109725
+shader_parameter/caustics_scale = 2.70000004023324
+shader_parameter/caustics_speed = 0.1
+shader_parameter/caustics_intensity = 0.8
+shader_parameter/caustics_depth_fade = 0.7
+shader_parameter/foam_color = Color(1, 1, 1, 1)
+shader_parameter/foam_depth_start = 0.8
+shader_parameter/foam_depth_end = 0.0
+shader_parameter/foam_noise_scale = 2.68999993987312
+shader_parameter/foam_noise_speed = 1.35999996960128
+shader_parameter/foam_cutoff = 0.77999998256544
+shader_parameter/foam_crest_threshold = 0.95999997854208
+shader_parameter/foam_crest_amount = 9.40000014007128
+shader_parameter/foam_edge_color = Color(0, 0, 0.05, 1)
+shader_parameter/foam_edge_offset = Vector2(0.02, 0.02)
+shader_parameter/voronoi_scale = 1.0000000475
+shader_parameter/voronoi_strength = 0.8
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jphkx"]
+material = SubResource("ShaderMaterial_3j3pq")
+size = Vector2(9000, 9000)
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ui86p"]
+size = Vector3(20, 5, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0nk4"]
+albedo_color = Color(0, 1, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vu5xs"]
+albedo_color = Color(0.05, 0.05, 0.05, 1)
+metallic = 0.8
+roughness = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_82t6o"]
+height = 60.0
+radius = 12.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7odij"]
+transparency = 1
+albedo_color = Color(0.4, 0.8, 1, 0.25)
+emission_enabled = true
+emission = Color(0.2, 0.6, 1, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_p464x"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 21.937378, -0.3048401, -1.5438232, -21.937378, 0.3048401, 1.5438232, -342.34888, -41.67798, 82.6189, 258.5288, -16.33043, -118.50342, -258.5288, 16.33043, 118.50342, -780.10547, -6.321411, 200.72058),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25oj8"]
+size = Vector3(20, 10, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmlgv"]
+albedo_color = Color(1, 0.5, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_carod"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 7.4803467, 11.690796, 9.728149, -217.48804, -257.32422, -10.687073, 217.48804, 257.32422, 10.687073, 346.2835, 1313.477, -345.72025, -189.00378, 129.82849, -40.90207, 189.00378, -129.82849, 40.90207, 908.9377, 942.2588, -179.74326),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x6hoa"]
+size = Vector3(34.53717, 20.454834, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ksixe"]
+albedo_color = Color(1, 0.5, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.4, 0, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_3j3pq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -100.96155, -247.53925, -168.34912, 216.83728, -25.700775, 814.7556, -216.83728, 25.700775, -814.7556, -872.1891, -161.40161, -1430.0376, 846.385, 1.3279114, 1067.897, -846.385, -1.3279114, -1067.897, -1358.5854, -134.04099, -3805.3623, 0, 0, 0, 0, 0, 0, -929.2387, -202.80664, -7357.794),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[node name="Track_Track 2" type="Node3D" unique_id=1597330771]
+
+[node name="Geometry" type="Node3D" parent="." unique_id=1771280431]
+
+[node name="Road_Main" type="Node3D" parent="Geometry" unique_id=183084805]
+
+[node name="TrackBuilder3D_Branch_2" type="Path3D" parent="Geometry/Road_Main" unique_id=1124546293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 622.9328, 0, 0)
+curve = SubResource("Curve3D_bsw08")
+script = ExtResource("1_6d8gv")
+profile = SubResource("Resource_yfh52")
+road_material = ExtResource("3_5j5lq")
+
+[node name="FlatBoostPad" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_2" unique_id=980302250]
+script = ExtResource("5_3j3pq")
+track_offset = 800.0
+match_track_width = true
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_2" unique_id=1444519822]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 1200.0
+length = 20.0
+match_track_width = true
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="TrackBuilder3D_Branch_6" type="Path3D" parent="Geometry/Road_Main" unique_id=544052524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 622.9328, 317.73608, 47.86377)
+curve = SubResource("Curve3D_8wuda")
+script = ExtResource("1_6d8gv")
+profile = SubResource("Resource_bn7ov")
+
+[node name="JumpRamp" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_6" unique_id=1901956219]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 600.0
+length = 20.0
+match_track_width = true
+ramp_height = 0.5
+boost_pad_size = Vector2(3.41, 12)
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Boost" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_6" unique_id=1617004796]
+script = ExtResource("5_3j3pq")
+track_offset = 300.0
+length = 20.0
+match_track_width = true
+boost_power = 100.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Boost2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_6" unique_id=814139455]
+script = ExtResource("5_3j3pq")
+track_offset = 150.0
+length = 20.0
+match_track_width = true
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Boost3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_6" unique_id=172078154]
+script = ExtResource("5_3j3pq")
+track_offset = 500.0
+length = 20.0
+match_track_width = true
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Boost4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_6" unique_id=10204]
+script = ExtResource("5_3j3pq")
+track_offset = 700.0
+length = 20.0
+match_track_width = true
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Boost5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D_Branch_6" unique_id=10205]
+script = ExtResource("5_3j3pq")
+track_offset = 900.0
+length = 20.0
+match_track_width = true
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="TrackBuilder3D" type="Path3D" parent="Geometry/Road_Main" unique_id=813007538]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 622.9328, 0, 0)
+curve = SubResource("Curve3D_6528k")
+script = ExtResource("1_6d8gv")
+profile = SubResource("Resource_8wuda")
+road_material = ExtResource("3_5j5lq")
+multi_road = true
+metadata/_custom_type_script = "uid://vd67kd5vbrrj"
+
+[node name="JumpRamp" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=1534360637]
+script = ExtResource("5_3j3pq")
+element_type = 2
+length = 40.0
+width = 30.0
+lateral_offset = 30.0
+height_offset = 20.0
+ramp_height = 10.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostSet1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=1620999499]
+
+[node name="FlatBoostPad" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/BoostSet1" unique_id=1395437133]
+script = ExtResource("5_3j3pq")
+track_offset = 200.0
+width = 50.0
+lateral_offset = 25.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/BoostSet1" unique_id=274174923]
+script = ExtResource("5_3j3pq")
+track_offset = 225.0
+width = 50.0
+lateral_offset = 25.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/BoostSet1" unique_id=12627941]
+script = ExtResource("5_3j3pq")
+track_offset = 250.0
+width = 50.0
+lateral_offset = 25.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRampSet1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=601848293]
+
+[node name="JumpRamp" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=1969941865]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 500.0
+length = 5.0
+width = 50.0
+ramp_height = 1.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=983430351]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 515.0
+length = 5.0
+width = 50.0
+ramp_height = 1.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=1369291217]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 530.0
+length = 5.0
+width = 50.0
+ramp_height = 1.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=973930792]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 545.0
+length = 5.0
+width = 50.0
+ramp_height = 1.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=804465266]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 560.0
+length = 5.0
+width = 50.0
+ramp_height = 1.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_6" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=1206428732]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 1000.0
+length = 30.0
+width = 30.0
+lateral_offset = -35.0
+ramp_height = 10.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=454122979]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 1100.0
+length = 30.0
+width = 30.0
+lateral_offset = 30.0
+ramp_height = 10.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_7" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=179712431]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 1300.0
+length = 30.0
+width = 50.0
+lateral_offset = 25.0
+ramp_height = 10.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=710105068]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 1500.0
+length = 30.0
+width = 50.0
+ramp_height = 10.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/JumpRampSet1" unique_id=326085919]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 2000.0
+length = 30.0
+width = 50.0
+ramp_height = 10.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox1Row" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=1336284429]
+
+[node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row" unique_id=157149428]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 750.0
+length = 5.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row" unique_id=1463483774]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 750.0
+length = 5.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row" unique_id=229818884]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 750.0
+length = 5.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row" unique_id=1030955056]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 750.0
+length = 5.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row" unique_id=590900532]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 750.0
+length = 5.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=1520622561]
+script = ExtResource("5_3j3pq")
+track_offset = 800.0
+length = 15.0
+width = 50.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=667315287]
+script = ExtResource("5_3j3pq")
+track_offset = 2700.0
+length = 15.0
+width = 50.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=793634491]
+script = ExtResource("5_3j3pq")
+track_offset = 3000.0
+length = 15.0
+width = 50.0
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=1508626570]
+script = ExtResource("5_3j3pq")
+track_offset = 3300.0
+length = 15.0
+width = 33.0
+lateral_offset = 33.0
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Gap1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10200]
+script = ExtResource("5_3j3pq")
+track_offset = 1200.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Gap2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10201]
+script = ExtResource("5_3j3pq")
+track_offset = 1600.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Gap3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10202]
+script = ExtResource("5_3j3pq")
+track_offset = 2100.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Gap4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10203]
+script = ExtResource("5_3j3pq")
+track_offset = 2400.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=2102861424]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14600.0
+length = 15.0
+width = 20.0
+lateral_offset = 25.0
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=51143508]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 3325.0
+length = 15.0
+width = 33.0
+lateral_offset = 40.0
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox1Row2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=222729680]
+
+[node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row2" unique_id=251762637]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 1800.0
+length = 5.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row2" unique_id=1811926542]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 1800.0
+length = 5.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row2" unique_id=990154925]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 1800.0
+length = 5.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row2" unique_id=1830282575]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 1800.0
+length = 5.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row2" unique_id=131005639]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 1800.0
+length = 5.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox1Row3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=1854759644]
+
+[node name="ItemBox" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row3" unique_id=1350661513]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 2800.0
+length = 5.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row3" unique_id=288610193]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 2800.0
+length = 5.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row3" unique_id=1470153312]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 2800.0
+length = 5.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row3" unique_id=573844113]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 2800.0
+length = 5.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/ItemBox1Row3" unique_id=1655446871]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 2800.0
+length = 5.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_RampGauntlet" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10001]
+
+[node name="JumpRamp_Left_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10002]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 3500.0
+length = 40.0
+width = 35.0
+lateral_offset = -30.0
+ramp_height = 12.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Right_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10003]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 3620.0
+length = 40.0
+width = 35.0
+lateral_offset = 30.0
+ramp_height = 12.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Center_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10004]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 3750.0
+length = 50.0
+width = 40.0
+ramp_height = 15.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_AfterRamp" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10005]
+script = ExtResource("5_3j3pq")
+track_offset = 3880.0
+match_track_width = true
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_4000" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10006]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet/ItemRow_4000" unique_id=10007]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 4000.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet/ItemRow_4000" unique_id=10008]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 4000.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet/ItemRow_4000" unique_id=10009]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 4000.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet/ItemRow_4000" unique_id=10010]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 4000.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet/ItemRow_4000" unique_id=10011]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 4000.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Left_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10012]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 4150.0
+length = 30.0
+width = 30.0
+lateral_offset = -25.0
+ramp_height = 8.0
+boost_power = 70.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Right_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10013]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 4280.0
+length = 30.0
+width = 30.0
+lateral_offset = 25.0
+ramp_height = 8.0
+boost_power = 70.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Fullwidth_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_RampGauntlet" unique_id=10014]
+script = ExtResource("5_3j3pq")
+track_offset = 4420.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_HazardZone" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10015]
+
+[node name="Hazard_Hover_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10016]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 4600.0
+width = 20.0
+movement_type = 2
+movement_speed = 1.5
+movement_range = 20.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Pendulum_L" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10017]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 4780.0
+width = 20.0
+lateral_offset = -20.0
+movement_type = 1
+movement_range = 15.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Pendulum_R" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10018]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 4780.0
+width = 20.0
+lateral_offset = 20.0
+movement_type = 1
+movement_range = 15.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust_Left" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10019]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 4920.0
+lateral_offset = -30.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust_Right" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10020]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 4920.0
+lateral_offset = 30.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_5050" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10021]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone/ItemRow_5050" unique_id=10022]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 5050.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone/ItemRow_5050" unique_id=10023]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 5050.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone/ItemRow_5050" unique_id=10024]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 5050.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Spin_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10025]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 5200.0
+width = 25.0
+movement_type = 3
+movement_speed = 3.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_SideSide" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10026]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 5350.0
+width = 20.0
+movement_type = 4
+movement_speed = 1.8
+movement_range = 30.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Hazard_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10206]
+script = ExtResource("5_3j3pq")
+track_offset = 4700.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Hazard_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10207]
+script = ExtResource("5_3j3pq")
+track_offset = 5050.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Hazard_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10208]
+script = ExtResource("5_3j3pq")
+track_offset = 5250.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Escape_L" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10027]
+script = ExtResource("5_3j3pq")
+track_offset = 5450.0
+width = 20.0
+lateral_offset = -35.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Escape_R" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_HazardZone" unique_id=10028]
+script = ExtResource("5_3j3pq")
+track_offset = 5450.0
+width = 20.0
+lateral_offset = 35.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_BankedHighway" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10029]
+
+[node name="BankedRoad_Right_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10030]
+script = ExtResource("5_3j3pq")
+element_type = 7
+track_offset = 5600.0
+length = 100.0
+lateral_offset = 40.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BankedRoad_Left_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10031]
+script = ExtResource("5_3j3pq")
+element_type = 7
+track_offset = 5800.0
+length = 100.0
+lateral_offset = -40.0
+bank_direction = -1
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_6000" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10032]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway/ItemRow_6000" unique_id=10033]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 6000.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway/ItemRow_6000" unique_id=10034]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 6000.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway/ItemRow_6000" unique_id=10035]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 6000.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway/ItemRow_6000" unique_id=10036]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 6000.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway/ItemRow_6000" unique_id=10037]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 6000.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BankedRoad_Right_Boost" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10038]
+script = ExtResource("5_3j3pq")
+element_type = 7
+track_offset = 6200.0
+length = 80.0
+lateral_offset = 40.0
+bank_angle = 40.0
+bank_has_boost = true
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Center" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10039]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 6450.0
+length = 35.0
+match_track_width = true
+ramp_height = 10.0
+boost_power = 130.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Center_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10040]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 6650.0
+length = 50.0
+width = 40.0
+ramp_height = 18.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Wide_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BankedHighway" unique_id=10041]
+script = ExtResource("5_3j3pq")
+track_offset = 6850.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_SpeedBurst" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10042]
+
+[node name="FlatBoostPad_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10043]
+script = ExtResource("5_3j3pq")
+track_offset = 7000.0
+width = 33.0
+lateral_offset = -33.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10044]
+script = ExtResource("5_3j3pq")
+track_offset = 7025.0
+width = 33.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10045]
+script = ExtResource("5_3j3pq")
+track_offset = 7050.0
+width = 33.0
+lateral_offset = 33.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Center2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10046]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 7150.0
+length = 35.0
+match_track_width = true
+ramp_height = 10.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_7300" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10047]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst/ItemRow_7300" unique_id=10048]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 7300.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst/ItemRow_7300" unique_id=10049]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 7300.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst/ItemRow_7300" unique_id=10050]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 7300.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst/ItemRow_7300" unique_id=10051]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 7300.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst/ItemRow_7300" unique_id=10052]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 7300.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Left_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10053]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 7500.0
+length = 45.0
+width = 35.0
+lateral_offset = -25.0
+ramp_height = 14.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Right_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10054]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 7650.0
+length = 45.0
+width = 35.0
+lateral_offset = 25.0
+ramp_height = 14.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Full_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10055]
+script = ExtResource("5_3j3pq")
+track_offset = 7820.0
+match_track_width = true
+boost_power = 170.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Right" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpeedBurst" unique_id=10056]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 7920.0
+length = 30.0
+width = 30.0
+lateral_offset = 25.0
+ramp_height = 8.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_BigAir" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10057]
+
+[node name="JumpRamp_Big_Left" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10058]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 8000.0
+length = 60.0
+width = 40.0
+lateral_offset = -20.0
+ramp_height = 20.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Big_Right" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10059]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 8150.0
+length = 60.0
+width = 40.0
+lateral_offset = 20.0
+ramp_height = 20.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust_Center1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10060]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 8350.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_8500" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10061]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_8500" unique_id=10062]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 8500.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_8500" unique_id=10063]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 8500.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_8500" unique_id=10064]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 8500.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_8500" unique_id=10065]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 8500.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_8500" unique_id=10066]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 8500.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_BigAir_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10209]
+script = ExtResource("5_3j3pq")
+track_offset = 8300.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_BigAir_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10210]
+script = ExtResource("5_3j3pq")
+track_offset = 8550.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Big_Center" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10067]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 8700.0
+length = 50.0
+match_track_width = true
+ramp_height = 15.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Hover_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10068]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 8920.0
+width = 25.0
+lateral_offset = -20.0
+movement_type = 2
+movement_range = 15.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Hover_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10069]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 8920.0
+width = 25.0
+lateral_offset = 20.0
+movement_type = 2
+movement_range = 15.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust_Left2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10070]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 9050.0
+lateral_offset = -30.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Trio_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10071]
+script = ExtResource("5_3j3pq")
+track_offset = 9200.0
+width = 30.0
+lateral_offset = -30.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Trio_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10072]
+script = ExtResource("5_3j3pq")
+track_offset = 9200.0
+width = 30.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Trio_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10073]
+script = ExtResource("5_3j3pq")
+track_offset = 9200.0
+width = 30.0
+lateral_offset = 30.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_9400" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir" unique_id=10074]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_9400" unique_id=10075]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9400.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_9400" unique_id=10076]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9400.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_9400" unique_id=10077]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9400.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_9400" unique_id=10078]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9400.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_BigAir/ItemRow_9400" unique_id=10079]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9400.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_SpinZone" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10080]
+
+[node name="Hazard_Spin_L" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10081]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 9500.0
+width = 20.0
+lateral_offset = -20.0
+movement_type = 3
+movement_speed = 4.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Spin_R" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10082]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 9600.0
+width = 20.0
+lateral_offset = 20.0
+movement_type = 3
+movement_speed = 4.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Pendulum_C" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10083]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 9750.0
+width = 20.0
+movement_type = 1
+movement_speed = 2.5
+movement_range = 20.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_9900" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10084]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_9900" unique_id=10085]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9900.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_9900" unique_id=10086]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9900.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_9900" unique_id=10087]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9900.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_9900" unique_id=10088]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9900.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_9900" unique_id=10089]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 9900.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Center_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10090]
+script = ExtResource("5_3j3pq")
+track_offset = 10050.0
+width = 30.0
+boost_power = 130.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_SideSide2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10091]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 10200.0
+width = 20.0
+movement_type = 4
+movement_range = 35.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Center_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10092]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 10400.0
+length = 50.0
+width = 45.0
+ramp_height = 16.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Spin_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10211]
+script = ExtResource("5_3j3pq")
+track_offset = 9650.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Spin_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10212]
+script = ExtResource("5_3j3pq")
+track_offset = 10300.0
+length = 15.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust_Center2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10093]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 10600.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_10800" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10094]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_10800" unique_id=10095]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 10800.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_10800" unique_id=10096]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 10800.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone/ItemRow_10800" unique_id=10097]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 10800.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Left2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10098]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 11000.0
+length = 30.0
+width = 30.0
+lateral_offset = -25.0
+ramp_height = 10.0
+boost_power = 130.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Right2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_SpinZone" unique_id=10099]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 11000.0
+length = 30.0
+width = 30.0
+lateral_offset = 25.0
+ramp_height = 10.0
+boost_power = 130.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Section_FinalStretch" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=10100]
+
+[node name="BoostRamp_Final1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10101]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 11200.0
+length = 40.0
+match_track_width = true
+ramp_height = 12.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_11400" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10102]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_11400" unique_id=10103]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 11400.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_11400" unique_id=10104]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 11400.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_11400" unique_id=10105]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 11400.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_11400" unique_id=10106]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 11400.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_11400" unique_id=10107]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 11400.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BankedRoad_Right_Final" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10108]
+script = ExtResource("5_3j3pq")
+element_type = 7
+track_offset = 11600.0
+length = 90.0
+bank_angle = 40.0
+bank_has_boost = true
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Left_Final" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10109]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 11800.0
+length = 50.0
+width = 40.0
+lateral_offset = -20.0
+ramp_height = 18.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="WindGust_Right_Final" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10110]
+script = ExtResource("5_3j3pq")
+element_type = 6
+track_offset = 12000.0
+lateral_offset = 30.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_12200" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10111]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_12200" unique_id=10112]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 12200.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_12200" unique_id=10113]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 12200.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_12200" unique_id=10114]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 12200.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_12200" unique_id=10115]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 12200.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_12200" unique_id=10116]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 12200.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Trio_Final_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10117]
+script = ExtResource("5_3j3pq")
+track_offset = 12350.0
+width = 30.0
+lateral_offset = -30.0
+boost_power = 170.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Trio_Final_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10118]
+script = ExtResource("5_3j3pq")
+track_offset = 12350.0
+width = 30.0
+boost_power = 170.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_Trio_Final_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10119]
+script = ExtResource("5_3j3pq")
+track_offset = 12350.0
+width = 30.0
+lateral_offset = 30.0
+boost_power = 170.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Big_Final" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10120]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 12550.0
+length = 60.0
+match_track_width = true
+ramp_height = 20.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Hazard_Hover_Final" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10121]
+script = ExtResource("5_3j3pq")
+element_type = 4
+track_offset = 12750.0
+width = 25.0
+movement_type = 2
+movement_speed = 2.5
+movement_range = 20.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_13000" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10122]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_13000" unique_id=10123]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 13000.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_13000" unique_id=10124]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 13000.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_13000" unique_id=10125]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 13000.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_13000" unique_id=10126]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 13000.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_13000" unique_id=10127]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 13000.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Fullwidth" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10128]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 13250.0
+length = 50.0
+match_track_width = true
+ramp_height = 12.0
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_4x_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10129]
+script = ExtResource("5_3j3pq")
+track_offset = 13500.0
+width = 25.0
+lateral_offset = -37.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_4x_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10130]
+script = ExtResource("5_3j3pq")
+track_offset = 13500.0
+width = 25.0
+lateral_offset = -12.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_4x_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10131]
+script = ExtResource("5_3j3pq")
+track_offset = 13525.0
+width = 25.0
+lateral_offset = 12.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_4x_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10132]
+script = ExtResource("5_3j3pq")
+track_offset = 13525.0
+width = 25.0
+lateral_offset = 37.0
+boost_power = 50.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="JumpRamp_Penultimate" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10133]
+script = ExtResource("5_3j3pq")
+element_type = 2
+track_offset = 13800.0
+length = 55.0
+match_track_width = true
+ramp_height = 18.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_14000" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10134]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14000" unique_id=10135]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14000.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14000" unique_id=10136]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14000.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14000" unique_id=10137]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14000.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14000" unique_id=10138]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14000.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14000" unique_id=10139]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14000.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="FlatBoostPad_FullFinal" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10140]
+script = ExtResource("5_3j3pq")
+track_offset = 14200.0
+match_track_width = true
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="BoostRamp_Finale" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10141]
+script = ExtResource("5_3j3pq")
+element_type = 1
+track_offset = 14500.0
+length = 40.0
+match_track_width = true
+ramp_height = 15.0
+boost_power = 50.0
+boost_duration = 2.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemRow_14550" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch" unique_id=10142]
+
+[node name="ItemBox_1" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14550" unique_id=10143]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14550.0
+width = 50.0
+lateral_offset = -30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_2" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14550" unique_id=10144]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14550.0
+width = 50.0
+lateral_offset = -15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_3" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14550" unique_id=10145]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14550.0
+width = 50.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_4" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14550" unique_id=10146]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14550.0
+width = 50.0
+lateral_offset = 15.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="ItemBox_5" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D/Section_FinalStretch/ItemRow_14550" unique_id=10147]
+script = ExtResource("5_3j3pq")
+element_type = 3
+track_offset = 14550.0
+width = 50.0
+lateral_offset = 30.0
+height_offset = 0.5
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="TrackElementBuilder3D" type="Node3D" parent="Geometry/Road_Main/TrackBuilder3D" unique_id=432606433]
+script = ExtResource("5_3j3pq")
+track_offset = 2200.0
+width = 50.0
+lateral_offset = 25.0
+metadata/_custom_type_script = "uid://hjubijc1bjpd"
+
+[node name="Road_Ramp" type="Node3D" parent="Geometry" unique_id=485032288]
+script = ExtResource("6_jphkx")
+
+[node name="RampUp" type="CSGBox3D" parent="Geometry/Road_Ramp" unique_id=1525951740]
+transform = Transform3D(1, 0, 0, 0, 0.98093826, 0.19432004, 0, -0.19432004, 0.98093826, -79.37279, 8.382385, -319.00024)
+use_collision = true
+size = Vector3(40, 2, 120)
+material = SubResource("StandardMaterial3D_ygy6v")
+
+[node name="RampDown" type="CSGBox3D" parent="Geometry/Road_Ramp" unique_id=532824776]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, -80, 9, 20)
+use_collision = true
+size = Vector3(40, 2, 120)
+material = SubResource("StandardMaterial3D_ygy6v")
+
+[node name="Road_WallRide" type="Node3D" parent="Geometry" unique_id=1911612904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 135.65405, 84.02539, -1460.1382)
+script = ExtResource("6_jphkx")
+is_wall_ride = true
+friction = 0.2
+
+[node name="BankedHighway" type="CSGBox3D" parent="Geometry/Road_WallRide" unique_id=1736463074]
+transform = Transform3D(0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0, 1, 262.68536, -9.936539, -150)
+use_collision = true
+size = Vector3(40, 2, 280)
+material = SubResource("StandardMaterial3D_lkkl1")
+
+[node name="Scenery" type="Node3D" parent="Geometry" unique_id=2120317566]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Geometry/Scenery" unique_id=1178349996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -63.90428, -2551.454)
+visible = false
+size = Vector3(1000, 1, 6102.908)
+
+[node name="SM_Cliff_02_Unity" parent="Geometry/Scenery" unique_id=1837613252 instance=ExtResource("6_yfh52")]
+transform = Transform3D(99.12017, 0, -13.236019, 0, 100, 0, 13.236019, 0, 99.12017, -3857.2139, -535.44617, -2366.2236)
+
+[node name="SM_Cliff_03_Unity" parent="Geometry/Scenery" unique_id=78701483 instance=ExtResource("7_yru4j")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -3401.735, -563.1023, 516.307)
+
+[node name="SM_Cliff_03_Unity2" parent="Geometry/Scenery" unique_id=941240653 instance=ExtResource("7_yru4j")]
+transform = Transform3D(-8.468657, 0, 99.64076, 0, 167.08023, 0, -99.64076, 0, -8.468657, -1474.4801, -563.1023, 1972.6782)
+
+[node name="SM_Cliff_05_Unity" parent="Geometry/Scenery" unique_id=1601009884 instance=ExtResource("8_3j3pq")]
+transform = Transform3D(-99.336266, 0, -11.502392, 0, 99.999985, 0, 11.502392, 0, -99.336266, 931.9502, -397.24634, -721.9686)
+
+[node name="SM_Cliff_05_Unity2" parent="Geometry/Scenery" unique_id=503959455 instance=ExtResource("8_3j3pq")]
+transform = Transform3D(-99.336266, 0, -11.502392, 0, 99.999985, 0, 11.502392, 0, -99.336266, 1138.6962, -56.733643, -721.9686)
+
+[node name="SM_Cliff_05_Unity3" parent="Geometry/Scenery" unique_id=1752356282 instance=ExtResource("8_3j3pq")]
+transform = Transform3D(-99.336266, 0, -11.502392, 0, 99.999985, 0, 11.502392, 0, -99.336266, 1290.9081, 344.7904, -721.9686)
+
+[node name="Water" type="MeshInstance3D" parent="Geometry/Scenery" unique_id=671587368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1305.9098, -165.01088, -1018.48035)
+mesh = SubResource("PlaneMesh_jphkx")
+
+[node name="TrackElements" type="Node3D" parent="Geometry" unique_id=920443116]
+
+[node name="WindGust" parent="Geometry/TrackElements" unique_id=1033231154 instance=ExtResource("4_bn7ov")]
+transform = Transform3D(8.648863, 0, 0, 0, 5.6418357, 0, 0, 0, 9.678908, -2245.0588, -371.05078, -117.398895)
+
+[node name="WindGust2" parent="Geometry/TrackElements" unique_id=1460107138 instance=ExtResource("4_bn7ov")]
+transform = Transform3D(8.648863, 0, 0, 0, 5.6418357, 0, 0, 0, 9.678908, -1897.9418, -371.05078, -117.398895)
+
+[node name="WindGust3" parent="Geometry/TrackElements" unique_id=558249179 instance=ExtResource("4_bn7ov")]
+transform = Transform3D(8.648863, 0, 0, 0, 5.6418357, 0, 0, 0, 9.678908, -1571.8237, -371.05078, -117.398895)
+
+[node name="BoostPad_1" type="Area3D" parent="Geometry/TrackElements" unique_id=147257851]
+transform = Transform3D(0.9396925, 0.17101008, 0.29619813, 0, 0.8660255, -0.50000006, -0.3420201, 0.46984637, 0.8137978, -555.9178, 33.572582, 363.95816)
+visible = false
+script = ExtResource("7_1lhgb")
+boost_power = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/BoostPad_1" unique_id=1923446260]
+shape = SubResource("BoxShape3D_ui86p")
+
+[node name="MeshInstance3D" type="CSGBox3D" parent="Geometry/TrackElements/BoostPad_1" unique_id=397276067]
+size = Vector3(20, 0.5, 5)
+material = SubResource("StandardMaterial3D_a0nk4")
+
+[node name="Hazard_1" type="Area3D" parent="Geometry/TrackElements" unique_id=570411833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
+script = ExtResource("8_5j5lq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/Hazard_1" unique_id=2028986354]
+shape = SubResource("BoxShape3D_ui86p")
+
+[node name="MeshInstance3D" type="CSGPolygon3D" parent="Geometry/TrackElements/Hazard_1" unique_id=534086884]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.1, 0)
+polygon = PackedVector2Array(-8, -8, 8, -8, 6, 8, -6, 8)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 8
+material = SubResource("StandardMaterial3D_vu5xs")
+
+[node name="WindGust_1" type="Area3D" parent="Geometry/TrackElements" unique_id=1702846322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 1, -80)
+script = ExtResource("9_eoji0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/WindGust_1" unique_id=1825477101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+shape = SubResource("CylinderShape3D_82t6o")
+
+[node name="MeshInstance3D" type="CSGCylinder3D" parent="Geometry/TrackElements/WindGust_1" unique_id=812707779]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+radius = 12.0
+height = 60.0
+material = SubResource("StandardMaterial3D_7odij")
+
+[node name="Cannon_1" type="Area3D" parent="Geometry/TrackElements" unique_id=111433368 node_paths=PackedStringArray("flight_path")]
+transform = Transform3D(-0.5272914, 0.21851219, -0.8211067, 0.14984953, 0.97513443, 0.16327271, 0.8363665, -0.03695011, -0.54692394, -378.6928, 160.67358, -944.2511)
+script = ExtResource("10_p70yn")
+flight_path = NodePath("CannonPath_1")
+flight_speed = 200.0
+
+[node name="CannonPath_1" type="Path3D" parent="Geometry/TrackElements/Cannon_1" unique_id=1635918303]
+curve = SubResource("Curve3D_p464x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/Cannon_1" unique_id=1498572222]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5, 0)
+shape = SubResource("BoxShape3D_25oj8")
+
+[node name="MeshInstance3D" type="CSGBox3D" parent="Geometry/TrackElements/Cannon_1" unique_id=318714244]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 5, 0)
+size = Vector3(20, 10, 20)
+material = SubResource("StandardMaterial3D_xmlgv")
+
+[node name="Cannon_2" type="Area3D" parent="Geometry/TrackElements" unique_id=1607244229 node_paths=PackedStringArray("flight_path")]
+transform = Transform3D(0.5732785, 0.8091643, 0.12886055, 6.353988e-05, 0.1572258, -0.98756254, -0.8193606, 0.56615674, 0.09008275, -1249.8573, 19.349213, -49.321472)
+script = ExtResource("10_p70yn")
+flight_path = NodePath("CannonPath_2")
+
+[node name="CannonPath_2" type="Path3D" parent="Geometry/TrackElements/Cannon_2" unique_id=1464483701]
+curve = SubResource("Curve3D_carod")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry/TrackElements/Cannon_2" unique_id=627326025]
+transform = Transform3D(2, -5.9604645e-08, -3.1292439e-07, 0, 2, 7.450581e-09, 0, 1.4901161e-08, 1.9999971, 0.016113281, 5.203491, 0.0004272461)
+shape = SubResource("BoxShape3D_x6hoa")
+
+[node name="MeshInstance3D" type="CSGBox3D" parent="Geometry/TrackElements/Cannon_2" unique_id=1960124614]
+transform = Transform3D(2, -5.9604645e-08, -3.1292439e-07, 0, 2, 7.450581e-09, 0, 1.4901161e-08, 1.9999971, -0.0033569336, -8.29126, 52.07939)
+size = Vector3(25.123764, 11.505615, 20)
+material = SubResource("StandardMaterial3D_ksixe")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Geometry" unique_id=316422317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1226.2944, -148.74693, -70.385864)
+use_collision = true
+size = Vector3(500, 200, 500)
+
+[node name="whale_set1" type="Node3D" parent="Geometry" unique_id=59978633]
+
+[node name="Path3D" type="Path3D" parent="Geometry/whale_set1" unique_id=773764061]
+transform = Transform3D(0.9910159, 0, 0.13374403, 0, 1, 0, -0.13374403, 0, 0.9910159, 1133.5774, 85.93149, 2084.4487)
+curve = SubResource("Curve3D_3j3pq")
+
+[node name="whale_set2" type="Node3D" parent="Geometry" unique_id=507575544]
+
+[node name="Path3D2" type="Path3D" parent="Geometry/whale_set2" unique_id=1753302725]
+transform = Transform3D(0.9923255, 0, 0.123653434, 0, 1, 0, -0.123653434, 0, 0.9923255, 698.19556, 85.93149, 2126.6714)
+curve = SubResource("Curve3D_3j3pq")
+
+[node name="whale_set3" type="Node3D" parent="Geometry" unique_id=1238146650]
+
+[node name="Path3D3" type="Path3D" parent="Geometry/whale_set3" unique_id=1132411103]
+transform = Transform3D(0.98181325, 0, 0.18984948, 0, 1, 0, -0.18984948, 0, 0.98181325, 625.5621, 87.12875, 2276.3665)
+curve = SubResource("Curve3D_3j3pq")
+
+[node name="WHALESPAWNER" type="Node3D" parent="Geometry" unique_id=423871042 node_paths=PackedStringArray("paths")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4452.927, 0, 0)
+script = ExtResource("14_3j3pq")
+whale_scene = ExtResource("15_jphkx")
+paths = [NodePath("../whale_set1/Path3D"), NodePath("../whale_set2/Path3D2"), NodePath("../whale_set3/Path3D3")]
+max_whales = 12
+min_speed = 50.0
+max_speed = 80.0
+
+[node name="TrackStartPosition" type="Node3D" parent="." unique_id=1514758068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3012.279, -66.88743, -234.78961)
+script = ExtResource("16_1lhgb")
+metadata/_custom_type_script = "uid://c8wdt6vc28cdi"

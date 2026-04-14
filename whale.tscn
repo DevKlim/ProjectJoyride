@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c0mnhnjc25iyw"]
+
+[ext_resource type="PackedScene" uid="uid://bbu2mk8hurcko" path="res://assets/maps/track2/whale.glb" id="1_ua5ne"]
+[ext_resource type="Script" uid="uid://bdliyucowne65" path="res://scripts/maps/track2_whale.gd" id="2_v43gg"]
+
+[node name="track2_whale" unique_id=423695567 instance=ExtResource("1_ua5ne")]
+script = ExtResource("2_v43gg")
+
+[node name="Cube" parent="." index="0" unique_id=1769949267]
+transform = Transform3D(-7.86805e-07, 0, 18, 0, 18, 0, -18, 0, -7.86805e-07, 0, 0, 0)
